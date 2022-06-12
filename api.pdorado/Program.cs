@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+Sesion.Instance.PublicKey = builder.Configuration.GetValue<string>("PublicKey");
 Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("ComicsDBConnection");
 
 var app = builder.Build();
