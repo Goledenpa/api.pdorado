@@ -12,8 +12,8 @@ using api.pdorado.Data;
 namespace api.pdorado.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220612155533_InitialMig")]
-    partial class InitialMig
+    [Migration("20220612181436_INITIAL")]
+    partial class INITIAL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,9 +87,6 @@ namespace api.pdorado.Migrations
                     b.Property<int>("CreadoPor")
                         .HasColumnType("int");
 
-                    b.Property<int>("EditorId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("EliminadorFecha")
                         .HasColumnType("datetime2");
 
@@ -99,9 +96,13 @@ namespace api.pdorado.Migrations
                     b.Property<int>("IdEditor")
                         .HasColumnType("int");
 
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("EditorId");
+                    b.HasIndex("IdEditor");
 
                     b.ToTable("Coleccion");
                 });
@@ -124,9 +125,6 @@ namespace api.pdorado.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ColeccionId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreadoFecha")
                         .HasColumnType("datetime2");
 
@@ -139,13 +137,10 @@ namespace api.pdorado.Migrations
                     b.Property<int?>("EliminadorPor")
                         .HasColumnType("int");
 
-                    b.Property<int>("EstadoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Existencias")
                         .HasColumnType("int");
 
-                    b.Property<int>("GeneroId")
+                    b.Property<int>("IdAutor")
                         .HasColumnType("int");
 
                     b.Property<int>("IdColeccion")
@@ -169,11 +164,13 @@ namespace api.pdorado.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ColeccionId");
+                    b.HasIndex("IdAutor");
 
-                    b.HasIndex("EstadoId");
+                    b.HasIndex("IdColeccion");
 
-                    b.HasIndex("GeneroId");
+                    b.HasIndex("IdEstado");
+
+                    b.HasIndex("IdGenero");
 
                     b.ToTable("Comic");
                 });
@@ -186,20 +183,33 @@ namespace api.pdorado.Migrations
                     b.Property<int>("IdLenguaje")
                         .HasColumnType("int");
 
-                    b.Property<int>("ComicId")
+                    b.Property<DateTime?>("ActualizadoFecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ActualizadoPor")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreadoFecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreadoPor")
                         .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("EliminadorFecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EliminadorPor")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdComic", "IdLenguaje");
-
-                    b.HasIndex("ComicId");
 
                     b.ToTable("Comic_Lenguaje");
                 });
@@ -276,11 +286,11 @@ namespace api.pdorado.Migrations
 
             modelBuilder.Entity("api.pdorado.Data.Models.Estado_Lenguaje", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("IdEstado")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<int>("IdLenguaje")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ActualizadoFecha")
                         .HasColumnType("datetime2");
@@ -304,18 +314,7 @@ namespace api.pdorado.Migrations
                     b.Property<int?>("EliminadorPor")
                         .HasColumnType("int");
 
-                    b.Property<int>("EstadoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdEstado")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdLenguaje")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EstadoId");
+                    b.HasKey("IdEstado", "IdLenguaje");
 
                     b.ToTable("Estado_Lenguaje");
                 });
@@ -357,11 +356,11 @@ namespace api.pdorado.Migrations
 
             modelBuilder.Entity("api.pdorado.Data.Models.Genero_Lenguaje", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("IdGenero")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<int>("IdLenguaje")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ActualizadoFecha")
                         .HasColumnType("datetime2");
@@ -385,42 +384,16 @@ namespace api.pdorado.Migrations
                     b.Property<int?>("EliminadorPor")
                         .HasColumnType("int");
 
-                    b.Property<int>("GeneroId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdGenero")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdLenguaje")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GeneroId");
+                    b.HasKey("IdGenero", "IdLenguaje");
 
                     b.ToTable("Genero_Lenguaje");
-                });
-
-            modelBuilder.Entity("AutorComic", b =>
-                {
-                    b.Property<int>("AutoresId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ComicsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AutoresId", "ComicsId");
-
-                    b.HasIndex("ComicsId");
-
-                    b.ToTable("AutorComic");
                 });
 
             modelBuilder.Entity("api.pdorado.Data.Models.Coleccion", b =>
                 {
                     b.HasOne("api.pdorado.Data.Models.Editor", "Editor")
                         .WithMany("Colecciones")
-                        .HasForeignKey("EditorId")
+                        .HasForeignKey("IdEditor")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -429,23 +402,31 @@ namespace api.pdorado.Migrations
 
             modelBuilder.Entity("api.pdorado.Data.Models.Comic", b =>
                 {
+                    b.HasOne("api.pdorado.Data.Models.Autor", "Autor")
+                        .WithMany("Comics")
+                        .HasForeignKey("IdAutor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("api.pdorado.Data.Models.Coleccion", "Coleccion")
                         .WithMany("Comics")
-                        .HasForeignKey("ColeccionId")
+                        .HasForeignKey("IdColeccion")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("api.pdorado.Data.Models.Estado", "Estado")
                         .WithMany("Comics")
-                        .HasForeignKey("EstadoId")
+                        .HasForeignKey("IdEstado")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("api.pdorado.Data.Models.Genero", "Genero")
                         .WithMany("Comics")
-                        .HasForeignKey("GeneroId")
+                        .HasForeignKey("IdGenero")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Autor");
 
                     b.Navigation("Coleccion");
 
@@ -458,7 +439,7 @@ namespace api.pdorado.Migrations
                 {
                     b.HasOne("api.pdorado.Data.Models.Comic", "Comic")
                         .WithMany("Lenguajes")
-                        .HasForeignKey("ComicId")
+                        .HasForeignKey("IdComic")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -469,7 +450,7 @@ namespace api.pdorado.Migrations
                 {
                     b.HasOne("api.pdorado.Data.Models.Estado", "Estado")
                         .WithMany("Lenguajes")
-                        .HasForeignKey("EstadoId")
+                        .HasForeignKey("IdEstado")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -480,26 +461,16 @@ namespace api.pdorado.Migrations
                 {
                     b.HasOne("api.pdorado.Data.Models.Genero", "Genero")
                         .WithMany("Lenguajes")
-                        .HasForeignKey("GeneroId")
+                        .HasForeignKey("IdGenero")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Genero");
                 });
 
-            modelBuilder.Entity("AutorComic", b =>
+            modelBuilder.Entity("api.pdorado.Data.Models.Autor", b =>
                 {
-                    b.HasOne("api.pdorado.Data.Models.Autor", null)
-                        .WithMany()
-                        .HasForeignKey("AutoresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.pdorado.Data.Models.Comic", null)
-                        .WithMany()
-                        .HasForeignKey("ComicsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Comics");
                 });
 
             modelBuilder.Entity("api.pdorado.Data.Models.Coleccion", b =>

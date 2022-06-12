@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api.pdorado.Migrations
 {
-    public partial class InitialMig : Migration
+    public partial class INITIAL : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,8 +93,8 @@ namespace api.pdorado.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Codigo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdEditor = table.Column<int>(type: "int", nullable: false),
-                    EditorId = table.Column<int>(type: "int", nullable: false),
                     CreadoPor = table.Column<int>(type: "int", nullable: false),
                     CreadoFecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActualizadoPor = table.Column<int>(type: "int", nullable: true),
@@ -106,8 +106,8 @@ namespace api.pdorado.Migrations
                 {
                     table.PrimaryKey("PK_Coleccion", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Coleccion_Editor_EditorId",
-                        column: x => x.EditorId,
+                        name: "FK_Coleccion_Editor_IdEditor",
+                        column: x => x.IdEditor,
                         principalTable: "Editor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -117,12 +117,9 @@ namespace api.pdorado.Migrations
                 name: "Estado_Lenguaje",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdEstado = table.Column<int>(type: "int", nullable: false),
                     IdLenguaje = table.Column<int>(type: "int", nullable: false),
-                    EstadoId = table.Column<int>(type: "int", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreadoPor = table.Column<int>(type: "int", nullable: false),
                     CreadoFecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActualizadoPor = table.Column<int>(type: "int", nullable: true),
@@ -132,10 +129,10 @@ namespace api.pdorado.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Estado_Lenguaje", x => x.Id);
+                    table.PrimaryKey("PK_Estado_Lenguaje", x => new { x.IdEstado, x.IdLenguaje });
                     table.ForeignKey(
-                        name: "FK_Estado_Lenguaje_Estado_EstadoId",
-                        column: x => x.EstadoId,
+                        name: "FK_Estado_Lenguaje_Estado_IdEstado",
+                        column: x => x.IdEstado,
                         principalTable: "Estado",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -145,12 +142,9 @@ namespace api.pdorado.Migrations
                 name: "Genero_Lenguaje",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdGenero = table.Column<int>(type: "int", nullable: false),
                     IdLenguaje = table.Column<int>(type: "int", nullable: false),
-                    GeneroId = table.Column<int>(type: "int", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreadoPor = table.Column<int>(type: "int", nullable: false),
                     CreadoFecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActualizadoPor = table.Column<int>(type: "int", nullable: true),
@@ -160,10 +154,10 @@ namespace api.pdorado.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genero_Lenguaje", x => x.Id);
+                    table.PrimaryKey("PK_Genero_Lenguaje", x => new { x.IdGenero, x.IdLenguaje });
                     table.ForeignKey(
-                        name: "FK_Genero_Lenguaje_Genero_GeneroId",
-                        column: x => x.GeneroId,
+                        name: "FK_Genero_Lenguaje_Genero_IdGenero",
+                        column: x => x.IdGenero,
                         principalTable: "Genero",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -183,9 +177,7 @@ namespace api.pdorado.Migrations
                     IdColeccion = table.Column<int>(type: "int", nullable: false),
                     IdEstado = table.Column<int>(type: "int", nullable: false),
                     IdGenero = table.Column<int>(type: "int", nullable: false),
-                    ColeccionId = table.Column<int>(type: "int", nullable: false),
-                    EstadoId = table.Column<int>(type: "int", nullable: false),
-                    GeneroId = table.Column<int>(type: "int", nullable: false),
+                    IdAutor = table.Column<int>(type: "int", nullable: false),
                     CreadoPor = table.Column<int>(type: "int", nullable: false),
                     CreadoFecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActualizadoPor = table.Column<int>(type: "int", nullable: true),
@@ -197,45 +189,27 @@ namespace api.pdorado.Migrations
                 {
                     table.PrimaryKey("PK_Comic", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comic_Coleccion_ColeccionId",
-                        column: x => x.ColeccionId,
-                        principalTable: "Coleccion",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comic_Estado_EstadoId",
-                        column: x => x.EstadoId,
-                        principalTable: "Estado",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comic_Genero_GeneroId",
-                        column: x => x.GeneroId,
-                        principalTable: "Genero",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AutorComic",
-                columns: table => new
-                {
-                    AutoresId = table.Column<int>(type: "int", nullable: false),
-                    ComicsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AutorComic", x => new { x.AutoresId, x.ComicsId });
-                    table.ForeignKey(
-                        name: "FK_AutorComic_Autor_AutoresId",
-                        column: x => x.AutoresId,
+                        name: "FK_Comic_Autor_IdAutor",
+                        column: x => x.IdAutor,
                         principalTable: "Autor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AutorComic_Comic_ComicsId",
-                        column: x => x.ComicsId,
-                        principalTable: "Comic",
+                        name: "FK_Comic_Coleccion_IdColeccion",
+                        column: x => x.IdColeccion,
+                        principalTable: "Coleccion",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comic_Estado_IdEstado",
+                        column: x => x.IdEstado,
+                        principalTable: "Estado",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comic_Genero_IdGenero",
+                        column: x => x.IdGenero,
+                        principalTable: "Genero",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -248,65 +222,52 @@ namespace api.pdorado.Migrations
                     IdLenguaje = table.Column<int>(type: "int", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ComicId = table.Column<int>(type: "int", nullable: false)
+                    CreadoPor = table.Column<int>(type: "int", nullable: false),
+                    CreadoFecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActualizadoPor = table.Column<int>(type: "int", nullable: true),
+                    ActualizadoFecha = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EliminadorPor = table.Column<int>(type: "int", nullable: true),
+                    EliminadorFecha = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comic_Lenguaje", x => new { x.IdComic, x.IdLenguaje });
                     table.ForeignKey(
-                        name: "FK_Comic_Lenguaje_Comic_ComicId",
-                        column: x => x.ComicId,
+                        name: "FK_Comic_Lenguaje_Comic_IdComic",
+                        column: x => x.IdComic,
                         principalTable: "Comic",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutorComic_ComicsId",
-                table: "AutorComic",
-                column: "ComicsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Coleccion_EditorId",
+                name: "IX_Coleccion_IdEditor",
                 table: "Coleccion",
-                column: "EditorId");
+                column: "IdEditor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comic_ColeccionId",
+                name: "IX_Comic_IdAutor",
                 table: "Comic",
-                column: "ColeccionId");
+                column: "IdAutor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comic_EstadoId",
+                name: "IX_Comic_IdColeccion",
                 table: "Comic",
-                column: "EstadoId");
+                column: "IdColeccion");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comic_GeneroId",
+                name: "IX_Comic_IdEstado",
                 table: "Comic",
-                column: "GeneroId");
+                column: "IdEstado");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comic_Lenguaje_ComicId",
-                table: "Comic_Lenguaje",
-                column: "ComicId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Estado_Lenguaje_EstadoId",
-                table: "Estado_Lenguaje",
-                column: "EstadoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Genero_Lenguaje_GeneroId",
-                table: "Genero_Lenguaje",
-                column: "GeneroId");
+                name: "IX_Comic_IdGenero",
+                table: "Comic",
+                column: "IdGenero");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AutorComic");
-
             migrationBuilder.DropTable(
                 name: "Comic_Lenguaje");
 
@@ -317,10 +278,10 @@ namespace api.pdorado.Migrations
                 name: "Genero_Lenguaje");
 
             migrationBuilder.DropTable(
-                name: "Autor");
+                name: "Comic");
 
             migrationBuilder.DropTable(
-                name: "Comic");
+                name: "Autor");
 
             migrationBuilder.DropTable(
                 name: "Coleccion");
