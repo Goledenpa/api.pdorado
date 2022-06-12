@@ -1,11 +1,8 @@
-using api.pdorado.Data;
-using Microsoft.EntityFrameworkCore;
+using api.pdorado.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connString = builder.Configuration.GetConnectionString("ComicsDBConnection");
-builder.Services.AddDbContext<ComicsDBContext>(options => options.UseSqlServer(connString));
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
