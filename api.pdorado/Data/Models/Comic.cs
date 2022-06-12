@@ -4,6 +4,10 @@ namespace api.pdorado.Data.Models
 {
     public class Comic : BaseDB
     {
+        public Comic()
+        {
+            Lenguajes = new List<Comic_Lenguaje>();
+        }
         public string Codigo { get; set; }
         public int Numero { get; set; }
         public string? Imagen { get; set; }

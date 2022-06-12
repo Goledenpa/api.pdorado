@@ -10,7 +10,7 @@ namespace api.pdorado.data.Models
     {
         public string Codigo { get; set; }
         public int Numero { get; set; }
-        public string Imagen { get; set; }
+        public string? Imagen { get; set; }
         public int Paginas { get; set; }
         public int Existencias { get; set; }
         public int IdColeccion { get; set; }
