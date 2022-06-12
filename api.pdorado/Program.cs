@@ -1,6 +1,10 @@
 using api.pdorado.Configuration;
 using api.pdorado.Data;
+using System.Net;
+using System.Net.Sockets;
 using System.Text.Json.Serialization;
+
+string localIP = LocalIPAddress();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,14 @@ Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("Co
 
 builder.Services.AddDbContext<DataContext>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        b => b.AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowAnyOrigin());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,8 +40,30 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
+
+app.Urls.Add("https://" + localIP + ":7069");
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+
+static string LocalIPAddress()
+{
+    using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+    {
+        socket.Connect("8.8.8.8", 65530);
+        IPEndPoint? endPoint = socket.LocalEndPoint as IPEndPoint;
+        if (endPoint != null)
+        {
+            return endPoint.Address.ToString();
+        }
+        else
+        {
+            return "127.0.0.1";
+        }
+    }
+}
