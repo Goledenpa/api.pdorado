@@ -1,5 +1,6 @@
 using api.pdorado.Configuration;
-using api.pdorado.Utils;
+using api.pdorado.Data;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 Sesion.Instance.PublicKey = builder.Configuration.GetValue<string>("PublicKey");
 Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("ComicsDBConnection");
+
+builder.Services.AddDbContext<DataContext>();
 
 var app = builder.Build();
 
