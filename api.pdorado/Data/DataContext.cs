@@ -1,4 +1,6 @@
-﻿using api.pdorado.Data.Models;
+﻿using api.pdorado.Configuration;
+using api.pdorado.Data.Models;
+using api.pdorado.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.pdorado.Data
@@ -15,6 +17,8 @@ namespace api.pdorado.Data
         DbSet<Genero> Genero { get; set; }
         DbSet<Genero_Lenguaje> Genero_Lenguaje { get; set; }
 
+        public DataContext(DbContextOptions options) : base(options) { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Comic_Lenguaje>().HasKey(x => new { x.IdComic, x.IdLenguaje });
@@ -26,7 +30,7 @@ namespace api.pdorado.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress;Database=ComicsDB;Trusted_Connection=True;MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer(Encrypter.DecryptStringAES(Sesion.Instance.ConnectionString, Sesion.Instance.PublicKey));
             base.OnConfiguring(optionsBuilder);
         }
     }
