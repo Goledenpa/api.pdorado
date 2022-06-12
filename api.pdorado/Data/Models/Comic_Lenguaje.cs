@@ -1,6 +1,8 @@
-﻿namespace api.pdorado.Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace api.pdorado.Data.Models
 {
-    public class Comic_Lenguaje : BaseDB
+    public class Comic_Lenguaje
     {
         public int IdComic { get; set; }
         public int IdLenguaje { get; set; }
@@ -13,6 +15,7 @@
         public int? EliminadorPor { get; set; }
         public DateTime? EliminadorFecha { get; set; }
 
+        [ForeignKey("IdComic")]
         public Comic Comic { get; set; }
     }
 }
