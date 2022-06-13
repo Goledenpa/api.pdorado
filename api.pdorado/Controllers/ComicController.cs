@@ -47,7 +47,7 @@ namespace api.pdorado.Controllers
         }
 
 
-        // GET: api/ComicDTOes/5
+        // GET: api/Comic/5
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> GetComic(int id, int idLenguaje)
         {
@@ -72,7 +72,7 @@ namespace api.pdorado.Controllers
             return (ComicDTO)comicDTO;
         }
 
-        // PUT: api/ComicDTOes/5
+        // PUT: api/Comic/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<IActionResult> UpdateComic(int id, int idLenguaje, ComicDTO comicDTO)
@@ -106,7 +106,7 @@ namespace api.pdorado.Controllers
             return NoContent();
         }
 
-        // POST: api/ComicDTOes
+        // POST: api/Comic
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> CreateComic(int idLenguaje, ComicDTO comicDTO)
@@ -125,7 +125,7 @@ namespace api.pdorado.Controllers
             return CreatedAtAction(nameof(GetComic), new { id = comicDTO.Id, idLenguaje }, comicDTO);
         }
 
-        // DELETE: api/ComicDTOes/5
+        // DELETE: api/Comic/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComic(int id)
         {

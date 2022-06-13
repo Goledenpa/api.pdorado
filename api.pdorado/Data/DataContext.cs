@@ -35,6 +35,8 @@ namespace api.pdorado.Data
             modelBuilder.Entity<Genero>().Navigation(x => x.Lenguajes).AutoInclude();
             modelBuilder.Entity<Estado>().Navigation(x => x.Lenguajes).AutoInclude();
 
+            modelBuilder.Entity<Autor>().Navigation(x => x.Comics).AutoInclude();
+
             base.OnModelCreating(modelBuilder);
         }
 

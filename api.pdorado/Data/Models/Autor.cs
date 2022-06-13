@@ -2,6 +2,10 @@
 {
     public class Autor : BaseDB
     {
+        public Autor()
+        {
+            Comics = new List<Comic>();
+        }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
 

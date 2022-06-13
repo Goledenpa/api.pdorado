@@ -4,6 +4,10 @@ namespace api.pdorado.Data.Models
 {
     public class Coleccion : BaseDB
     {
+        public Coleccion()
+        {
+            Comics = new List<Comic>();
+        }
         public string Codigo { get; set; }
         public string Nombre { get; set; }
         public int IdEditor { get; set; }
