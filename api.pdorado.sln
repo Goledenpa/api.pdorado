@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api.pdorado", "api.pdorado\api.pdorado.csproj", "{FA8F09AB-41BA-4A75-B594-A77FC1497FFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.pdorado.data", "api.pdorado.data\api.pdorado.data.csproj", "{953E8510-713B-4161-BA10-190B59B01C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pdorado.data", "api.pdorado.data\pdorado.data.csproj", "{953E8510-713B-4161-BA10-190B59B01C9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

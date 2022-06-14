@@ -1,4 +1,4 @@
-﻿using api.pdorado.data.Models;
+﻿using pdorado.data.Models;
 using api.pdorado.Data.Models;
 using AutoMapper;
 

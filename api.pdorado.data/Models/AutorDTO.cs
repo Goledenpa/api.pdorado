@@ -1,4 +1,4 @@
-﻿namespace api.pdorado.data.Models
+﻿namespace pdorado.data.Models
 {
     public class AutorDTO : BaseDTO
     {

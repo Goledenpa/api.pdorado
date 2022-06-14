@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace api.pdorado.data.Models
+namespace pdorado.data.Models
 {
     public class ColeccionDTO : BaseDTO
     {

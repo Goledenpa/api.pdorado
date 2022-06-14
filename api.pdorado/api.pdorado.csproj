@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\api.pdorado.data\api.pdorado.data.csproj" />
+    <ProjectReference Include="..\api.pdorado.data\pdorado.data.csproj" />
   </ItemGroup>
 
 </Project>

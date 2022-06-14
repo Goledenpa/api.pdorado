@@ -2,7 +2,6 @@
 using api.pdorado.Data.Models;
 using api.pdorado.Utils;
 using Microsoft.EntityFrameworkCore;
-using api.pdorado.data.Models;
 
 namespace api.pdorado.Data
 {
