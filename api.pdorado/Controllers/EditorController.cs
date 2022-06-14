@@ -144,7 +144,7 @@ namespace api.pdorado.Controllers
             _context.Editor.Remove(editor);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private async Task<bool> EditorExist(int id)

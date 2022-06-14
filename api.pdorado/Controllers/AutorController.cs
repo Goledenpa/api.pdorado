@@ -144,7 +144,7 @@ namespace api.pdorado.Controllers
             _context.Autor.Remove(autor);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private async Task<bool> AutorExist(int id)

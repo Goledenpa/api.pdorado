@@ -144,7 +144,7 @@ namespace api.pdorado.Controllers
             _context.Coleccion.Remove(coleccion);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private async Task<bool> ColeccionExist(int id)

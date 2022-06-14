@@ -142,7 +142,7 @@ namespace api.pdorado.Controllers
             _context.Comic.Remove(comic);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private async Task<bool> ComicExist(int id)

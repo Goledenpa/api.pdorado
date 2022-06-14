@@ -142,7 +142,7 @@ namespace api.pdorado.Controllers
             _context.Genero.Remove(genero);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private async Task<bool> GeneroExist(int id)

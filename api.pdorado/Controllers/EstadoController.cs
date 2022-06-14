@@ -142,7 +142,7 @@ namespace api.pdorado.Controllers
             _context.Estado.Remove(estado);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private async Task<bool> EstadoExist(int id)
