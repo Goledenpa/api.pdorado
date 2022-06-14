@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.pdorado.Data;
-using api.pdorado.data.Models;
 using api.pdorado.Data.Models;
 using AutoMapper;
+using pdorado.data.Models;
 
 namespace api.pdorado.Controllers
 {

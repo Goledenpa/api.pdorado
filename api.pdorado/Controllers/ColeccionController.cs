@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.pdorado.Data;
-using api.pdorado.data.Models;
 using api.pdorado.Data.Models;
 using AutoMapper;
 using System.Collections.Generic;
+using pdorado.data.Models;
 
 namespace api.pdorado.Controllers
 {
@@ -15,14 +15,15 @@ namespace api.pdorado.Controllers
         private readonly DataContext _context;
         private IMapper mapper;
 
-        public ColeccionController(DataContext context)
+        public ColeccionController(DataContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Coleccion
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ColeccionDTO>>> GetColecciones()
+        [HttpGet("{idLenguaje}")]
+        public async Task<ActionResult<IEnumerable<ColeccionDTO>>> GetColecciones(int idLenguaje)
         {
             if (_context.Coleccion == null)
             {
@@ -50,8 +51,8 @@ namespace api.pdorado.Controllers
 
 
         // GET: api/Coleccion/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ColeccionDTO>> GetColeccion(int id)
+        [HttpGet("{id}/{idLenguaje}")]
+        public async Task<ActionResult<ColeccionDTO>> GetColeccion(int id, int idLenguaje)
         {
             if (_context.Coleccion == null)
             {
@@ -76,8 +77,8 @@ namespace api.pdorado.Controllers
 
         // PUT: api/Coleccion/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<ActionResult<ColeccionDTO>> UpdateColeccion(int id, ColeccionDTO coleccionDTO)
+        [HttpPut("{id}/{idLenguaje}")]
+        public async Task<ActionResult<ColeccionDTO>> UpdateColeccion(int id, int idLenguaje, ColeccionDTO coleccionDTO)
         {
             if (id != coleccionDTO.Id)
             {
@@ -110,8 +111,8 @@ namespace api.pdorado.Controllers
 
         // POST: api/Coleccion
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ColeccionDTO>> CreateColeccion(ColeccionDTO coleccionDTO)
+        [HttpPost("{idLenguaje}")]
+        public async Task<ActionResult<ColeccionDTO>> CreateColeccion(int idLenguaje, ColeccionDTO coleccionDTO)
         {
             if (_context.Coleccion == null)
             {

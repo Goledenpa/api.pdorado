@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.pdorado.Data;
-using api.pdorado.data.Models;
 using api.pdorado.Data.Models;
 using AutoMapper;
 using System.Collections.Generic;
+using pdorado.data.Models;
 
 namespace api.pdorado.Controllers
 {
@@ -22,8 +22,8 @@ namespace api.pdorado.Controllers
         }
 
         // GET: api/Editor
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<EditorDTO>>> GetEditores()
+        [HttpGet("{idLenguaje}")]
+        public async Task<ActionResult<IEnumerable<EditorDTO>>> GetEditores(int idLenguaje)
         {
             if (_context.Editor == null)
             {
@@ -50,8 +50,8 @@ namespace api.pdorado.Controllers
 
 
         // GET: api/Editor/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EditorDTO>> GetEditor(int id)
+        [HttpGet("{id}/{idLenguaje}")]
+        public async Task<ActionResult<EditorDTO>> GetEditor(int id, int idLenguaje)
         {
             if (_context.Editor == null)
             {
@@ -76,8 +76,8 @@ namespace api.pdorado.Controllers
 
         // PUT: api/Editor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<ActionResult<EditorDTO>> UpdateEditor(int id, EditorDTO editorDTO)
+        [HttpPut("{id}/{idLenguaje}")]
+        public async Task<ActionResult<EditorDTO>> UpdateEditor(int id, int idLenguaje, EditorDTO editorDTO)
         {
             if (id != editorDTO.Id)
             {
@@ -110,8 +110,8 @@ namespace api.pdorado.Controllers
 
         // POST: api/Editor
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<EditorDTO>> CreateEditor(EditorDTO editorDTO)
+        [HttpPost("{idLenguaje}")]
+        public async Task<ActionResult<EditorDTO>> CreateEditor(int idLenguaje, EditorDTO editorDTO)
         {
             if (_context.Editor == null)
             {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.pdorado.Data;
-using api.pdorado.data.Models;
 using api.pdorado.Data.Models;
 using AutoMapper;
 using System.Collections.Generic;
 using api.pdorado.Configuration;
+using pdorado.data.Models;
 
 namespace api.pdorado.Controllers
 {
@@ -23,8 +23,8 @@ namespace api.pdorado.Controllers
         }
 
         // GET: api/Autor
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AutorDTO>>> GetAutores()
+        [HttpGet("{idLenguaje}")]
+        public async Task<ActionResult<IEnumerable<AutorDTO>>> GetAutores(int idLenguaje)
         {
             if (_context.Autor == null)
             {
@@ -50,8 +50,8 @@ namespace api.pdorado.Controllers
 
 
         // GET: api/Autor/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AutorDTO>> GetAutor(int id)
+        [HttpGet("{id}/{idLenguaje}")]
+        public async Task<ActionResult<AutorDTO>> GetAutor(int id, int idLenguaje)
         {
             if (_context.Autor == null)
             {
@@ -76,8 +76,8 @@ namespace api.pdorado.Controllers
 
         // PUT: api/Autor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<ActionResult<AutorDTO>> UpdateAutor(int id, AutorDTO autorDTO)
+        [HttpPut("{id}/{idLenguaje}")]
+        public async Task<ActionResult<AutorDTO>> UpdateAutor(int id, int idLenguaje, AutorDTO autorDTO)
         {
             if (id != autorDTO.Id)
             {
@@ -110,8 +110,8 @@ namespace api.pdorado.Controllers
 
         // POST: api/Autor
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<AutorDTO>> CreateComic(AutorDTO autorDTO)
+        [HttpPost("{idLenguaje}")]
+        public async Task<ActionResult<AutorDTO>> CreateComic(int idLenguaje, AutorDTO autorDTO)
         {
             if (_context.Autor == null)
             {
