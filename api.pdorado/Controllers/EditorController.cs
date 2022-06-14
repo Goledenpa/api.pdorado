@@ -124,7 +124,7 @@ namespace api.pdorado.Controllers
             await _context.SaveChangesAsync();
             editorDTO.Id = editor.Id;
 
-            return CreatedAtAction(nameof(GetEditor), new { id = editorDTO.Id }, editorDTO);
+            return CreatedAtAction(nameof(GetEditor), new { id = editorDTO.Id, idLenguaje = idLenguaje }, editorDTO);
         }
 
         // DELETE: api/Editor/5

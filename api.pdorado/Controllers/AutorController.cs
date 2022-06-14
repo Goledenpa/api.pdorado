@@ -111,7 +111,7 @@ namespace api.pdorado.Controllers
         // POST: api/Autor
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("{idLenguaje}")]
-        public async Task<ActionResult<AutorDTO>> CreateComic(int idLenguaje, AutorDTO autorDTO)
+        public async Task<ActionResult<AutorDTO>> CreateAutor(int idLenguaje, AutorDTO autorDTO)
         {
             if (_context.Autor == null)
             {
@@ -124,7 +124,7 @@ namespace api.pdorado.Controllers
             await _context.SaveChangesAsync();
             autorDTO.Id = autor.Id;
 
-            return CreatedAtAction(nameof(GetAutor), new { id = autorDTO.Id }, autorDTO);
+            return CreatedAtAction(nameof(GetAutor), new { id = autorDTO.Id, idLenguaje = idLenguaje }, autorDTO);
         }
 
         // DELETE: api/Autor/5

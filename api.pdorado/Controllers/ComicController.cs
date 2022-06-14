@@ -122,7 +122,7 @@ namespace api.pdorado.Controllers
             await _context.SaveChangesAsync();
             comicDTO.Id = comic.Id;
 
-            return CreatedAtAction(nameof(GetComic), new { id = comicDTO.Id, idLenguaje }, comicDTO);
+            return CreatedAtAction(nameof(GetComic), new { id = comicDTO.Id, idLenguaje = idLenguaje }, comicDTO);
         }
 
         // DELETE: api/Comic/5

@@ -122,7 +122,7 @@ namespace api.pdorado.Controllers
             await _context.SaveChangesAsync();
             estadoDTO.Id = estado.Id;
 
-            return CreatedAtAction(nameof(GetEstado), new { id = estadoDTO.Id, idLenguaje }, estadoDTO);
+            return CreatedAtAction(nameof(GetEstado), new { id = estadoDTO.Id, idLenguaje = idLenguaje}, estadoDTO);
         }
 
         // DELETE: api/Estado/5

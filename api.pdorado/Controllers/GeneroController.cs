@@ -122,7 +122,7 @@ namespace api.pdorado.Controllers
             await _context.SaveChangesAsync();
             generoDTO.Id = genero.Id;
 
-            return CreatedAtAction(nameof(GetGenero), new { id = generoDTO.Id, idLenguaje }, generoDTO);
+            return CreatedAtAction(nameof(GetGenero), new { id = generoDTO.Id, idLenguaje = idLenguaje }, generoDTO);
         }
 
         // DELETE: api/Genero/5

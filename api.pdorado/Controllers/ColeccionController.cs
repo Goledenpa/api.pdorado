@@ -125,7 +125,7 @@ namespace api.pdorado.Controllers
             await _context.SaveChangesAsync();
             coleccionDTO.Id = coleccion.Id;
 
-            return CreatedAtAction(nameof(GetColeccion), new { id = coleccionDTO.Id }, coleccionDTO);
+            return CreatedAtAction(nameof(GetColeccion), new { id = coleccionDTO.Id, idLenguaje = idLenguaje }, coleccionDTO);
         }
 
         // DELETE: api/Coleccion/5
