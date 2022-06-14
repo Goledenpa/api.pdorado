@@ -77,7 +77,7 @@ namespace api.pdorado.Controllers
         // PUT: api/Editor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEditor(int id, EditorDTO editorDTO)
+        public async Task<ActionResult<EditorDTO>> UpdateEditor(int id, EditorDTO editorDTO)
         {
             if (id != editorDTO.Id)
             {
@@ -85,7 +85,7 @@ namespace api.pdorado.Controllers
             }
 
             Editor editor;
-            if ((editor = await MapEditorDTO(editorDTO)) != null)
+            if ((editor = await MapEditorDTO(editorDTO)) == null)
             {
                 return Problem();
             }
@@ -105,7 +105,7 @@ namespace api.pdorado.Controllers
                 }
             }
 
-            return NoContent();
+            return (EditorDTO)MapEditor(editor);
         }
 
         // POST: api/Editor

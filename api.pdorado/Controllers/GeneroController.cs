@@ -75,7 +75,7 @@ namespace api.pdorado.Controllers
         // PUT: api/Genero/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}/{idLenguaje}")]
-        public async Task<IActionResult> UpdateGenero(int id, int idLenguaje, GeneroDTO generoDTO)
+        public async Task<ActionResult<GeneroDTO>> UpdateGenero(int id, int idLenguaje, GeneroDTO generoDTO)
         {
             if (id != generoDTO.Id)
             {
@@ -83,7 +83,7 @@ namespace api.pdorado.Controllers
             }
 
             Genero genero;
-            if ((genero = await MapGeneroDTO(generoDTO, idLenguaje)) != null)
+            if ((genero = await MapGeneroDTO(generoDTO, idLenguaje)) == null)
             {
                 return Problem();
             }
@@ -103,7 +103,7 @@ namespace api.pdorado.Controllers
                 }
             }
 
-            return NoContent();
+            return (GeneroDTO)MapGenero(genero, idLenguaje);
         }
 
         // POST: api/Genero

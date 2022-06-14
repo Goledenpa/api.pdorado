@@ -17,6 +17,7 @@ namespace api.pdorado.Data
         public DbSet<Estado_Lenguaje> Estado_Lenguaje { get; set; }
         public DbSet<Genero> Genero { get; set; }
         public DbSet<Genero_Lenguaje> Genero_Lenguaje { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
 
         public DataContext(DbContextOptions options) : base(options) { }
 
@@ -36,6 +37,8 @@ namespace api.pdorado.Data
             modelBuilder.Entity<Estado>().Navigation(x => x.Lenguajes).AutoInclude();
 
             modelBuilder.Entity<Autor>().Navigation(x => x.Comics).AutoInclude();
+
+            modelBuilder.Entity<Usuario>().HasAlternateKey(x => x.Login).HasName("IX_Login");
 
             base.OnModelCreating(modelBuilder);
         }

@@ -75,7 +75,7 @@ namespace api.pdorado.Controllers
         // PUT: api/Comic/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}/{idLenguaje}")]
-        public async Task<IActionResult> UpdateComic(int id, int idLenguaje, ComicDTO comicDTO)
+        public async Task<ActionResult<ComicDTO>> UpdateComic(int id, int idLenguaje, ComicDTO comicDTO)
         {
             if (id != comicDTO.Id)
             {
@@ -83,7 +83,7 @@ namespace api.pdorado.Controllers
             }
 
             Comic comic;
-            if ((comic = await MapComicDTO(comicDTO, idLenguaje)) != null)
+            if ((comic = await MapComicDTO(comicDTO, idLenguaje)) == null)
             {
                 return Problem();
             }
@@ -103,7 +103,7 @@ namespace api.pdorado.Controllers
                 }
             }
 
-            return NoContent();
+            return (ComicDTO)MapComic(comic, idLenguaje);
         }
 
         // POST: api/Comic

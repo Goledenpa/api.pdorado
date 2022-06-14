@@ -59,6 +59,7 @@ static string LocalIPAddress()
         IPEndPoint? endPoint = socket.LocalEndPoint as IPEndPoint;
         if (endPoint != null)
         {
+            Console.WriteLine(endPoint.Address.ToString());
             return endPoint.Address.ToString();
         }
         else

@@ -15,10 +15,9 @@ namespace api.pdorado.Controllers
         private readonly DataContext _context;
         private IMapper mapper;
 
-        public ColeccionController(DataContext context, IMapper mapper)
+        public ColeccionController(DataContext context)
         {
             _context = context;
-            this.mapper = mapper;
         }
 
         // GET: api/Coleccion
@@ -78,7 +77,7 @@ namespace api.pdorado.Controllers
         // PUT: api/Coleccion/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateColeccion(int id, ColeccionDTO coleccionDTO)
+        public async Task<ActionResult<ColeccionDTO>> UpdateColeccion(int id, ColeccionDTO coleccionDTO)
         {
             if (id != coleccionDTO.Id)
             {
@@ -86,7 +85,7 @@ namespace api.pdorado.Controllers
             }
 
             Coleccion coleccion;
-            if ((coleccion = await MapColeccionDTO(coleccionDTO)) != null)
+            if ((coleccion = await MapColeccionDTO(coleccionDTO)) == null)
             {
                 return Problem();
             }
@@ -106,7 +105,7 @@ namespace api.pdorado.Controllers
                 }
             }
 
-            return NoContent();
+            return (ColeccionDTO)MapColeccion(coleccion);
         }
 
         // POST: api/Coleccion

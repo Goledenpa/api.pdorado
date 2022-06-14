@@ -75,7 +75,7 @@ namespace api.pdorado.Controllers
         // PUT: api/Estado/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}/{idLenguaje}")]
-        public async Task<IActionResult> UpdateEstado(int id, int idLenguaje, EstadoDTO estadoDTO)
+        public async Task<ActionResult<EstadoDTO>> UpdateEstado(int id, int idLenguaje, EstadoDTO estadoDTO)
         {
             if (id != estadoDTO.Id)
             {
@@ -83,7 +83,7 @@ namespace api.pdorado.Controllers
             }
 
             Estado estado;
-            if ((estado = await MapEstadoDTO(estadoDTO, idLenguaje)) != null)
+            if ((estado = await MapEstadoDTO(estadoDTO, idLenguaje)) == null)
             {
                 return Problem();
             }
@@ -103,7 +103,7 @@ namespace api.pdorado.Controllers
                 }
             }
 
-            return NoContent();
+            return (EstadoDTO)MapEstado(estado, idLenguaje);
         }
 
         // POST: api/Estado

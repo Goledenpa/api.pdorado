@@ -5,6 +5,7 @@ using api.pdorado.data.Models;
 using api.pdorado.Data.Models;
 using AutoMapper;
 using System.Collections.Generic;
+using api.pdorado.Configuration;
 
 namespace api.pdorado.Controllers
 {
@@ -76,7 +77,7 @@ namespace api.pdorado.Controllers
         // PUT: api/Autor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAutor(int id, AutorDTO autorDTO)
+        public async Task<ActionResult<AutorDTO>> UpdateAutor(int id, AutorDTO autorDTO)
         {
             if (id != autorDTO.Id)
             {
@@ -84,7 +85,7 @@ namespace api.pdorado.Controllers
             }
 
             Autor autor;
-            if ((autor = await MapAutorDTO(autorDTO)) != null)
+            if ((autor = await MapAutorDTO(autorDTO)) == null)
             {
                 return Problem();
             }
@@ -104,7 +105,7 @@ namespace api.pdorado.Controllers
                 }
             }
 
-            return NoContent();
+            return (AutorDTO)MapAutor(autor);
         }
 
         // POST: api/Autor
