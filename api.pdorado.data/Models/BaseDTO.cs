@@ -13,7 +13,5 @@ namespace pdorado.data.Models
         public DateTime CreadoFecha { get; set; }
         public int? ActualizadoPor { get; set; }
         public DateTime? ActualizadoFecha { get; set; }
-        public int? EliminadorPor { get; set; }
-        public DateTime? EliminadorFecha { get; set; }
     }
 }
