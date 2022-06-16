@@ -15,7 +15,7 @@ namespace pdorado.data.Models
         public string Codigo { get; set; }
         public string Nombre { get; set; }
         public int IdEditor { get; set; }
-        public string NombreEditor { get; set; }
+        public string? NombreEditor { get; set; }
         public IList<int> ComicIds { get; set; }
     }
 }

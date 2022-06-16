@@ -14,13 +14,13 @@ namespace pdorado.data.Models
         public int Paginas { get; set; }
         public int Existencias { get; set; }
         public int IdColeccion { get; set; }
-        public string NombreColeccion { get; set; }
+        public string? NombreColeccion { get; set; }
         public int IdEstado { get; set; }
-        public string NombreEstado { get; set; }
+        public string? NombreEstado { get; set; }
         public int IdGenero { get; set; }
-        public string NombreGenero { get; set; }
+        public string? NombreGenero { get; set; }
         public int IdAutor { get; set; }
-        public string NombreAutor { get; set; }
+        public string? NombreAutor { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
       
