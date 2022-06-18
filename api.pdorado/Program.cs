@@ -82,6 +82,7 @@ builder.Services.AddDbContext<DataContext>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<IDataService<AutorDTO, Autor>, AutorService>();
 builder.Services.AddTransient<IDataService<ColeccionDTO, Coleccion>, ColeccionService>();
+builder.Services.AddTransient<IDataService<ComicDTO, Comic>, ComicService>();
 
 builder.Services.AddCors(options =>
 {

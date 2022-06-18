@@ -26,6 +26,6 @@ namespace api.pdorado.Data.Models
         public Genero Genero { get; set; }
         [ForeignKey("IdAutor")]
         public Autor Autor { get; set; }
-        public IList<Comic_Lenguaje> Lenguajes { get; set; }
+        public List<Comic_Lenguaje> Lenguajes { get; set; }
     }
 }
