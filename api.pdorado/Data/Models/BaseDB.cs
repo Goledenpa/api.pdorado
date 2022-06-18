@@ -3,9 +3,9 @@
     public class BaseDB
     {
         public int Id { get; set; }
-        public int CreadoPor { get; set; }
+        public string CreadoPor { get; set; }
         public DateTime CreadoFecha { get; set; }
-        public int? ActualizadoPor { get; set; }
+        public string? ActualizadoPor { get; set; }
         public DateTime? ActualizadoFecha { get; set; }
     }
 }
