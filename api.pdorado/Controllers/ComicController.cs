@@ -105,7 +105,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="id">El id del cómic</param>
         /// <returns>True si se ha eliminado correctamente, false si no</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComic(int id)
         {

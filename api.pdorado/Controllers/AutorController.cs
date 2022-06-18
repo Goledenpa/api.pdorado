@@ -6,9 +6,9 @@ using AutoMapper;
 using System.Collections.Generic;
 using api.pdorado.Configuration;
 using pdorado.data.Models;
-using api.pdorado.Auth;
 using api.pdorado.Servicios;
 using api.pdorado.Servicios.Interfaces;
+using api.pdorado.Auth;
 
 namespace api.pdorado.Controllers
 {
@@ -115,7 +115,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="id">El id del actor</param>
         /// <returns>True si se ha eliminado correctamente, false si no</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAutor(int id)
         {

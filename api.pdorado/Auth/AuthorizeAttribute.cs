@@ -10,12 +10,13 @@ namespace api.pdorado.Auth
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
+        public bool Admin { get; set; }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var account = (UsuarioDTO)context.HttpContext.Items["User"];
-            if (account == null)
+            UsuarioDTO account = (UsuarioDTO)context.HttpContext.Items["User"];
+
+            if (account == null || (Admin && !account.IsAdmin))
             {
-                // not logged in
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
             }
         }
