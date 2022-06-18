@@ -1,10 +1,13 @@
 using api.pdorado.Auth;
 using api.pdorado.Configuration;
 using api.pdorado.Data;
+using api.pdorado.Data.Models;
 using api.pdorado.Servicios;
+using api.pdorado.Servicios.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using pdorado.data.Models;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -77,6 +80,7 @@ Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("Co
 
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient<IDataService<AutorDTO, Autor>, AutorService>();
 
 builder.Services.AddCors(options =>
 {
