@@ -39,7 +39,7 @@ namespace api.pdorado.Controllers
         /// <param name="user">Usuario que intenta autentificarse</param>
         /// <returns>Un DTO de usuario si se ha podido autentificar, un error 400 si no</returns>
         [AllowAnonymous]
-        [HttpPost("")]
+        [HttpPost]
         public async Task<IActionResult> Auth([FromBody] UsuarioDTO user)
         {
             bool isValid = await _usuarioService.Login(user);
@@ -47,7 +47,17 @@ namespace api.pdorado.Controllers
             if (isValid)
             {
                 var tokenString = GenerateJwtToken(user.Login);
-                return Ok(new { Token = tokenString, Message = "Success" });
+                UsuarioDTO dto = await _usuarioService.GetUsuario(user.Login);
+                return Ok(new 
+                {
+                    dto.Login,
+                    dto.Email,
+                    dto.Apellidos,
+                    dto.Nombre,
+                    dto.FechaNacimiento,
+                    dto.IdLenguaje,
+                    tokenString
+                });
             }
 
             return BadRequest("Introduzca un nombre de usuario y contraseña válidos");
@@ -83,7 +93,7 @@ namespace api.pdorado.Controllers
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor); 
+            var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
     }

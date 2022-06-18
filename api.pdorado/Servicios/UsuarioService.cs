@@ -1,6 +1,8 @@
-﻿using api.pdorado.Data;
+﻿using api.pdorado.Configuration;
+using api.pdorado.Data;
 using api.pdorado.Data.Models;
 using api.pdorado.Servicios.Interfaces;
+using api.pdorado.Utils;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using pdorado.data.Models;
@@ -39,8 +41,10 @@ namespace api.pdorado.Servicios
                 return false;
             }
             Usuario db = await _context.Usuario.Where(x => x.Login == user.Login).FirstOrDefaultAsync();
+            HashManager hasher = new HashManager();
 
-            return db != null && db.Contrasena == user.Contrasena;
+
+            return db != null && hasher.Verify(user.Contrasena, db.Contrasena);
         }
 
         /// <summary>
@@ -78,12 +82,14 @@ namespace api.pdorado.Servicios
         /// <returns>DTO del usuario recién creado</returns>
         public async Task<UsuarioDTO> CreateUsuario(UsuarioDTO dto)
         {
+            HashManager hasher = new HashManager();
             if (_context.Usuario == null)
             {
                 return null;
             }
 
             Usuario db = _mapper.Map<Usuario>(dto);
+            db.Contrasena = hasher.HashToString(db.Contrasena);
 
             await _context.Usuario.AddAsync(db);
             await _context.SaveChangesAsync();
@@ -99,12 +105,14 @@ namespace api.pdorado.Servicios
         /// <returns>DTO del usuario actualizado</returns>
         public async Task<UsuarioDTO> UpdateUsuario(string login, UsuarioDTO dto)
         {
+            HashManager hasher = new HashManager();
             if (_context.Usuario == null)
             {
                 return null;
             }
 
             Usuario db = _mapper.Map<Usuario>(dto);
+            db.Contrasena = hasher.HashToString(db.Contrasena);
 
             await _context.SaveChangesAsync();
             return _mapper.Map<UsuarioDTO>(db);
