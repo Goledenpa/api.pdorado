@@ -85,6 +85,7 @@ builder.Services.AddTransient<IDataService<AutorDTO, Autor>, AutorService>();
 builder.Services.AddTransient<IDataService<ColeccionDTO, Coleccion>, ColeccionService>();
 builder.Services.AddTransient<IDataService<ComicDTO, Comic>, ComicService>();
 builder.Services.AddTransient<IDataService<EditorDTO, Editor>, EditorService>();
+builder.Services.AddTransient<IDataService<EstadoDTO, Estado>, EstadoService>();
 builder.Services.AddTransient<IDataService<GeneroDTO, Genero>, GeneroService>();
 
 builder.Services.AddCors(options =>

@@ -9,6 +9,6 @@
         }
         public string Codigo { get; set; }
         public IList<Comic> Comics { get; set; }
-        public IList<Estado_Lenguaje> Lenguajes { get; set; }
+        public List<Estado_Lenguaje> Lenguajes { get; set; }
     }
 }
