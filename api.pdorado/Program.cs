@@ -11,7 +11,6 @@ using pdorado.data.Models;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.Json.Serialization;
 
 string localIP = LocalIPAddress();
 

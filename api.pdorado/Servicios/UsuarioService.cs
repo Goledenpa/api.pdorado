@@ -1,6 +1,8 @@
-﻿using api.pdorado.Data;
+﻿using api.pdorado.Configuration;
+using api.pdorado.Data;
 using api.pdorado.Data.Models;
 using api.pdorado.Servicios.Interfaces;
+using api.pdorado.Utils;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using pdorado.data.Models;
@@ -39,8 +41,10 @@ namespace api.pdorado.Servicios
                 return false;
             }
             Usuario db = await _context.Usuario.Where(x => x.Login == user.Login).FirstOrDefaultAsync();
+            HashManager hasher = new HashManager();
 
-            return db != null && db.Contrasena == user.Contrasena;
+
+            return db != null && hasher.Verify(user.Contrasena, db.Contrasena);
         }
 
         /// <summary>

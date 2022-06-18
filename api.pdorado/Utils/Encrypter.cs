@@ -1,9 +1,10 @@
-﻿using System.Security.Cryptography;
+﻿using System.Text;
+using System.Security.Cryptography;
 
 namespace api.pdorado.Utils
 {
     /// <summary>
-    /// Clase de utilidad para Encriptar y Desencriptar cadenas de texto, principalmente cadenas de conexión
+    /// Clase de utilidad para Encriptar y Desencriptar cadenas de texto
     /// </summary>
     public class Encrypter
     {
