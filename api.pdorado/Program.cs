@@ -77,6 +77,7 @@ builder.Services.AddAuthentication(option =>
 
 Sesion.Instance.PublicKey = builder.Configuration.GetValue<string>("PublicKey");
 Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("ComicsDBConnection");
+Sesion.Instance.Idiomas = new List<int> { 1, 2, 3 };
 
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
@@ -84,6 +85,7 @@ builder.Services.AddTransient<IDataService<AutorDTO, Autor>, AutorService>();
 builder.Services.AddTransient<IDataService<ColeccionDTO, Coleccion>, ColeccionService>();
 builder.Services.AddTransient<IDataService<ComicDTO, Comic>, ComicService>();
 builder.Services.AddTransient<IDataService<EditorDTO, Editor>, EditorService>();
+builder.Services.AddTransient<IDataService<GeneroDTO, Genero>, GeneroService>();
 
 builder.Services.AddCors(options =>
 {

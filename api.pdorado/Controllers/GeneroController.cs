@@ -5,6 +5,7 @@ using api.pdorado.Data.Models;
 using AutoMapper;
 using pdorado.data.Models;
 using api.pdorado.Auth;
+using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
@@ -12,211 +13,110 @@ namespace api.pdorado.Controllers
     [ApiController]
     public class GeneroController : ControllerBase
     {
-        private readonly DataContext _context;
-        private IMapper mapper;
+        private readonly IDataService<GeneroDTO, Genero> _generoService;
 
-        public GeneroController(DataContext context, IMapper mapper)
+        public GeneroController(IDataService<GeneroDTO, Genero> generoService)
         {
-            _context = context;
-            this.mapper = mapper;
+            _generoService = generoService;
         }
 
-        // GET: api/Genero
+        /// <summary>
+        /// Obtiene todos los géneros
+        /// </summary>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>La lista de todos los géneros o un error 404 si no puede obtener los géneros</returns>
         [Authorize]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<GeneroDTO>>> GetGeneros(int idLenguaje)
         {
-            if (_context.Genero == null)
+            List<GeneroDTO> dtos = await _generoService.GetAll(idLenguaje);
+
+            if (dtos == null)
             {
                 return NotFound();
             }
 
-            var generosDB = await _context.Genero.Include(x => x.Comics).ToListAsync();
-            List<GeneroDTO> generosDTO = new List<GeneroDTO>();
-            foreach (Genero genero in generosDB)
-            {
-                object generoDTO;
-
-                if ((generoDTO = MapGenero(genero, idLenguaje)) is ObjectResult)
-                {
-                    return (ObjectResult)generoDTO;
-                }
-
-                generosDTO.Add((GeneroDTO)generoDTO);
-            }
-
-            return generosDTO;
+            return Ok(dtos);
         }
 
-
-        // GET: api/Genero/5
+        /// <summary>
+        /// Obtiene un género
+        /// </summary>
+        /// <param name="id">Id del género</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>El género un error 404 si no encuentra el género</returns>
         [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<GeneroDTO>> GetGenero(int id, int idLenguaje)
         {
-            if (_context.Genero == null)
-            {
-                return NotFound();
-            }
-            var genero = await _context.Genero.Include(x => x.Comics).FirstOrDefaultAsync(x => x.Id == id);
+            GeneroDTO dto = await _generoService.Get(id, idLenguaje);
 
-            if (genero == null)
+            if (dto == null)
             {
                 return NotFound();
             }
 
-            object generoDTO;
-
-            if ((generoDTO = MapGenero(genero, idLenguaje)) is ObjectResult)
-            {
-                return (ObjectResult)generoDTO;
-            }
-
-            return (GeneroDTO)generoDTO;
+            return Ok(dto);
         }
 
-        // PUT: api/Genero/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Actualiza un género
+        /// </summary>
+        /// <param name="id">Id del género</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <param name="autorDTO">Datos del género actualizado</param>
+        /// <returns>El género actulizado</returns>
         [Authorize]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<GeneroDTO>> UpdateGenero(int id, int idLenguaje, GeneroDTO generoDTO)
         {
-            if (id != generoDTO.Id)
+            GeneroDTO dto = await _generoService.Update(id, idLenguaje, generoDTO);
+
+            if (dto == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            Genero genero;
-            if ((genero = await MapGeneroDTO(generoDTO, idLenguaje)) == null)
-            {
-                return Problem();
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await GeneroExist(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return (GeneroDTO)MapGenero(genero, idLenguaje);
+            return Ok(dto);
         }
 
-        // POST: api/Genero
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Crea un género
+        /// </summary>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <param name="autorDTO">Datos del género</param>
+        /// <returns>El género creado</returns>
         [Authorize]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> CreateGenero(int idLenguaje, GeneroDTO generoDTO)
         {
-            if (_context.Genero == null)
+            GeneroDTO dto = await _generoService.Create(idLenguaje, generoDTO);
+
+            if (dto == null)
             {
-                return Problem("Entity set 'DataContext.Genero'  is null.");
+                return Problem("Entity set 'Comic' is null");
             }
 
-            Genero genero = await MapGeneroDTO(generoDTO, idLenguaje);
-
-            await _context.Genero.AddAsync(genero);
-            await _context.SaveChangesAsync();
-            generoDTO.Id = genero.Id;
-
-            return CreatedAtAction(nameof(GetGenero), new { id = generoDTO.Id, idLenguaje = idLenguaje }, generoDTO);
+            return CreatedAtAction(nameof(GetGenero), new { id = dto.Id, idLenguaje = idLenguaje }, dto);
         }
 
-        // DELETE: api/Genero/5
+        /// <summary>
+        /// Elimina un género
+        /// </summary>
+        /// <param name="id">El id del género</param>
+        /// <returns>True si se ha eliminado correctamente, false si no</returns>
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGenero(int id)
         {
-            if (_context.Genero == null)
+            bool deleted = await _generoService.Delete(id);
+
+            if (!deleted)
             {
                 return NotFound();
             }
-            var genero = await _context.Genero.FindAsync(id);
-            if (genero == null)
-            {
-                return NotFound();
-            }
 
-            _context.Genero.Remove(genero);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        private async Task<bool> GeneroExist(int id)
-        {
-            return await (_context.Genero.AnyAsync(e => e.Id == id));
-        }
-
-        private object MapGenero(Genero genero, int idLenguaje)
-        {
-            var generoDTO = mapper.Map<GeneroDTO>(genero);
-
-            var generoLenguaje = genero.Lenguajes.FirstOrDefault(x => x.IdLenguaje == idLenguaje);
-            if (generoLenguaje == null)
-            {
-                generoLenguaje = genero.Lenguajes.FirstOrDefault(x => x.Descripcion != null);
-                if (generoLenguaje == null)
-                {
-                    return Problem($"No se ha encontrado ningún lenguaje para el género {genero.Codigo}");
-                }
-            }
-
-            generoDTO.ComicIds = genero.Comics.Select(e => e.Id).ToList();
-
-            generoDTO.Descripcion = generoLenguaje.Descripcion;
-
-            return generoDTO;
-        }
-
-        private async Task<Genero> MapGeneroDTO(GeneroDTO generoDTO, int idLenguaje)
-        {
-            Genero genero = mapper.Map<Genero>(generoDTO);
-
-            Genero_Lenguaje? generoLenguaje;
-
-            if ((generoLenguaje = GetGeneroLenguaje(genero.Id, idLenguaje)) != null)
-            {
-                generoLenguaje.ActualizadoPor = genero.ActualizadoPor;
-                generoLenguaje.ActualizadoFecha = genero.ActualizadoFecha;
-                generoLenguaje.Descripcion = generoDTO.Descripcion;
-                _context.Entry(generoLenguaje).State = EntityState.Modified;
-            }
-            else
-            {
-                generoLenguaje = new Genero_Lenguaje()
-                {
-                    IdGenero = genero.Id,
-                    IdLenguaje = idLenguaje,
-                    CreadoPor = (int)(genero.ActualizadoPor == null ? genero.CreadoPor : genero.ActualizadoPor),
-                    CreadoFecha = (DateTime)(genero.ActualizadoFecha == null ? genero.CreadoFecha : genero.ActualizadoFecha),
-                    Descripcion = generoDTO.Descripcion
-                };
-                await _context.Genero_Lenguaje.AddAsync(generoLenguaje);
-            }
-
-            genero.Lenguajes.Add(generoLenguaje);
-
-            foreach (int idComic in generoDTO.ComicIds)
-            {
-                genero.Comics.Add(await _context.Comic.FindAsync(idComic));
-            }
-
-            return genero;
-        }
-
-        private Genero_Lenguaje? GetGeneroLenguaje(int id, int idLenguaje)
-        {
-            var lenguaje = _context.Genero_Lenguaje.FindAsync(id, idLenguaje).Result;
-            return lenguaje;
+            return Ok(deleted);
         }
     }
 }
