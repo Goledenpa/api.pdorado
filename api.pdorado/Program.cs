@@ -1,7 +1,13 @@
+using api.pdorado.Auth;
 using api.pdorado.Configuration;
 using api.pdorado.Data;
+using api.pdorado.Servicios;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Text.Json.Serialization;
 
 string localIP = LocalIPAddress();
@@ -11,16 +17,66 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddControllers().AddNewtonsoftJson();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+builder.Services.AddSwaggerGen(swagger =>
+{
+    swagger.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "1.0",
+        Title = "Comics API",
+        Description = "Api para la base de datos de Comics"
+    });
 
+    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Autorización JWT en la cabecera usando el esquema JWT"
+    });
+
+    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            }, new List<string>()
+        }
+    });
+});
+
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}
+).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
+        ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key")))
+    };
+});
 
 Sesion.Instance.PublicKey = builder.Configuration.GetValue<string>("PublicKey");
 Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("ComicsDBConnection");
 
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 
 builder.Services.AddCors(options =>
 {
@@ -30,14 +86,23 @@ builder.Services.AddCors(options =>
         .AllowAnyOrigin());
 });
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Comic Api");
+        c.RoutePrefix = String.Empty;
+    });
 }
+
+app.UseMiddleware<JWTMiddleware>();
+
+app.UseDeveloperExceptionPage();
 
 app.UseHttpsRedirection();
 
