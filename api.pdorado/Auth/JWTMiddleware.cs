@@ -1,4 +1,4 @@
-﻿using api.pdorado.Servicios;
+﻿using api.pdorado.Servicios.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

@@ -1,6 +1,6 @@
 ﻿using pdorado.data.Models;
 
-namespace api.pdorado.Servicios
+namespace api.pdorado.Servicios.Interfaces
 {
     public interface IUsuarioService
     {

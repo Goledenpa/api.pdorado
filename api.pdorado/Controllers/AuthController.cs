@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using api.pdorado.Servicios;
+using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
