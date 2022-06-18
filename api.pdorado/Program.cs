@@ -81,6 +81,7 @@ Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("Co
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<IDataService<AutorDTO, Autor>, AutorService>();
+builder.Services.AddTransient<IDataService<ColeccionDTO, Coleccion>, ColeccionService>();
 
 builder.Services.AddCors(options =>
 {

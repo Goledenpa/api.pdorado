@@ -6,6 +6,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using pdorado.data.Models;
 using api.pdorado.Auth;
+using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
@@ -13,69 +14,51 @@ namespace api.pdorado.Controllers
     [ApiController]
     public class ColeccionController : ControllerBase
     {
-        private readonly DataContext _context;
-        private IMapper mapper;
+        private readonly IDataService<ColeccionDTO, Coleccion> _coleccionService;
 
-        public ColeccionController(DataContext context, IMapper mapper)
+        public ColeccionController(IDataService<ColeccionDTO, Coleccion> coleccionService)
         {
-            _context = context;
-            this.mapper = mapper;
+            _coleccionService = coleccionService;
         }
 
-        // GET: api/Coleccion
+        /// <summary>
+        /// Obtiene todas las colecciones
+        /// </summary>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>La lista de todas las colecciones o un error 404 si no puede obtener las colecciones</returns>
         [Authorize]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<ColeccionDTO>>> GetColecciones(int idLenguaje)
         {
-            if (_context.Coleccion == null)
+            List<ColeccionDTO> dtos = await _coleccionService.GetAll(idLenguaje);
+
+            if (dtos == null)
             {
                 return NotFound();
             }
 
-            var coleccionesDB = await _context.Coleccion.Include(x => x.Comics).ToListAsync();
-
-
-            List<ColeccionDTO> coleccionesDTO = new List<ColeccionDTO>();
-            foreach (Coleccion coleccion in coleccionesDB)
-            {
-                object coleccionDTO;
-
-                if ((coleccionDTO = MapColeccion(coleccion)) is ObjectResult)
-                {
-                    return (ObjectResult)coleccionDTO;
-                }
-
-                coleccionesDTO.Add((ColeccionDTO)coleccionDTO);
-            }
-
-            return coleccionesDTO;
+            return dtos;
         }
 
 
-        // GET: api/Coleccion/5
+        /// <summary>
+        /// Obtiene una colección
+        /// </summary>
+        /// <param name="id">Id de la colección</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>La colección o un error 404 si no lo encuentra</returns>
         [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> GetColeccion(int id, int idLenguaje)
         {
-            if (_context.Coleccion == null)
-            {
-                return NotFound();
-            }
-            var coleccion = await _context.Coleccion.Include(x => x.Comics).FirstOrDefaultAsync(x => x.Id == id);
+            ColeccionDTO dto = await _coleccionService.Get(id, idLenguaje);
 
-            if (coleccion == null)
+            if (dto == null)
             {
                 return NotFound();
             }
 
-            object coleccionDTO;
-
-            if ((coleccionDTO = MapColeccion(coleccion)) is ObjectResult)
-            {
-                return (ObjectResult)coleccionDTO;
-            }
-
-            return (ColeccionDTO)coleccionDTO;
+            return Ok(dto);
         }
 
         // PUT: api/Coleccion/5
@@ -84,33 +67,14 @@ namespace api.pdorado.Controllers
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> UpdateColeccion(int id, int idLenguaje, ColeccionDTO coleccionDTO)
         {
-            if (id != coleccionDTO.Id)
+            ColeccionDTO dto = await _coleccionService.Update(id, idLenguaje, coleccionDTO);
+
+            if (dto == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            Coleccion coleccion;
-            if ((coleccion = await MapColeccionDTO(coleccionDTO)) == null)
-            {
-                return Problem();
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await ColeccionExist(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return (ColeccionDTO)MapColeccion(coleccion);
+            return Ok(dto);
         }
 
         // POST: api/Coleccion
@@ -119,18 +83,14 @@ namespace api.pdorado.Controllers
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> CreateColeccion(int idLenguaje, ColeccionDTO coleccionDTO)
         {
-            if (_context.Coleccion == null)
+            ColeccionDTO dto = await _coleccionService.Create(idLenguaje, coleccionDTO);
+
+            if (dto == null)
             {
-                return Problem("Entity set 'DataContext.Coleccion'  is null.");
+                return Problem("Entity set 'Autor' is null");
             }
 
-            Coleccion coleccion = await MapColeccionDTO(coleccionDTO);
-
-            await _context.Coleccion.AddAsync(coleccion);
-            await _context.SaveChangesAsync();
-            coleccionDTO.Id = coleccion.Id;
-
-            return CreatedAtAction(nameof(GetColeccion), new { id = coleccionDTO.Id, idLenguaje = idLenguaje }, coleccionDTO);
+            return Ok(dto);
         }
 
         // DELETE: api/Coleccion/5
@@ -138,48 +98,14 @@ namespace api.pdorado.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteColeccion(int id)
         {
-            if (_context.Coleccion == null)
+            bool deleted = await _coleccionService.Delete(id);
+
+            if (!deleted)
             {
                 return NotFound();
             }
-            var coleccion = await _context.Coleccion.FindAsync(id);
-            if (coleccion == null)
-            {
-                return NotFound();
-            }
 
-            _context.Coleccion.Remove(coleccion);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        private async Task<bool> ColeccionExist(int id)
-        {
-            return await (_context.Coleccion.AnyAsync(e => e.Id == id));
-        }
-
-        private object MapColeccion(Coleccion coleccion)
-        {
-            var coleccionDTO = mapper.Map<ColeccionDTO>(coleccion);
-
-            coleccionDTO.ComicIds = coleccion.Comics.Select(e => e.Id).ToList();
-
-            return coleccionDTO;
-        }
-
-        private async Task<Coleccion> MapColeccionDTO(ColeccionDTO coleccionDTO)
-        {
-            Coleccion coleccion = mapper.Map<Coleccion>(coleccionDTO);
-
-            foreach (int idComic in coleccionDTO.ComicIds)
-            {
-                coleccion.Comics.Add(await _context.Comic.FindAsync(idComic));
-            }
-
-            _context.Entry(coleccion).State = EntityState.Modified;
-
-            return coleccion;
+            return Ok(deleted);
         }
     }
 }

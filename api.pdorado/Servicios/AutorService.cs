@@ -33,8 +33,6 @@ namespace api.pdorado.Servicios
                 }
             }
 
-            //_context.Entry(db).State = EntityState.Modified;
-
             return db;
         }
 
