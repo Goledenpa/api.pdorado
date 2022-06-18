@@ -44,7 +44,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="id">Id del género</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
-        /// <returns>El género un error 404 si no encuentra el género</returns>
+        /// <returns>El género o un error 404 si no encuentra el género</returns>
         [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<GeneroDTO>> GetGenero(int id, int idLenguaje)

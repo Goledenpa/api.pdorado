@@ -11,21 +11,33 @@ using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
+    /// <summary>
+    /// Controlador de la Autorización
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly DataContext _context;
+        /// <summary>
+        /// Interfaz que permite obtener datos del appsettings.json
+        /// </summary>
         private readonly IConfiguration _configuration;
+        /// <summary>
+        /// Servicio que permite la autentificación de los usuarios
+        /// </summary>
         private readonly IUsuarioService _usuarioService;
 
-        public AuthController(DataContext context, IConfiguration configuration, IUsuarioService usuarioService)
+        public AuthController(IConfiguration configuration, IUsuarioService usuarioService)
         {
-            _context = context;
             _configuration = configuration;
             _usuarioService = usuarioService;
         }
 
+        /// <summary>
+        /// Método que permite que un usuario se autentifique
+        /// </summary>
+        /// <param name="user">Usuario que intenta autentificarse</param>
+        /// <returns>Un DTO de usuario si se ha podido autentificar, un error 400 si no</returns>
         [AllowAnonymous]
         [HttpPost("")]
         public IActionResult Auth([FromBody] UsuarioDTO user)
@@ -41,6 +53,10 @@ namespace api.pdorado.Controllers
             return BadRequest("Introduzca un nombre de usuario y contraseña válidos");
         }
 
+        /// <summary>
+        /// Método para saber si el usuario está autentificado
+        /// </summary>
+        /// <returns></returns>
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet(nameof(IsAuthenticated))]
         public IActionResult IsAuthenticated()
@@ -48,7 +64,11 @@ namespace api.pdorado.Controllers
             return Ok("El usuario está autenticado");
         }
 
-
+        /// <summary>
+        /// Generación de un Bearer JWT
+        /// </summary>
+        /// <param name="login">Login del usuario</param>
+        /// <returns>El token jwt que se ha generado</returns>
         private string GenerateJwtToken(string login)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

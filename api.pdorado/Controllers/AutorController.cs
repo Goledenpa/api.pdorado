@@ -12,10 +12,16 @@ using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
+    /// <summary>
+    /// Controlador de autor
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AutorController : ControllerBase
     {
+        /// <summary>
+        /// Servicio que hace todas las operaciones CRUD en la tabla Autor
+        /// </summary>
         private readonly IDataService<AutorDTO, Autor> _autorService;
 
         public AutorController(IDataService<AutorDTO, Autor> autorService)
@@ -48,7 +54,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="id">Id del autor a obtener</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
-        /// <returns>El autor en específico o un error 404 si no lo encuentra</returns>
+        /// <returns>El autor o un error 404 si no lo encuentra</returns>
         [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<AutorDTO>> GetAutor(int id, int idLenguaje)

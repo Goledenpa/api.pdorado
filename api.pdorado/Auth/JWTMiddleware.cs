@@ -33,7 +33,7 @@ namespace api.pdorado.Auth
             await _next(context);
         }
 
-        private void attachAccountToContext(HttpContext context, string token, IUsuarioService usuarioService)
+        private async void attachAccountToContext(HttpContext context, string token, IUsuarioService usuarioService)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace api.pdorado.Auth
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var accountId = jwtToken.Claims.First(x => x.Type == "id").Value;
 
-                context.Items["User"] = usuarioService.GetUsuario(accountId);
+                context.Items["User"] = await usuarioService.GetUsuario(accountId);
             }
             catch { }
         }
