@@ -39,12 +39,12 @@ namespace api.pdorado.Controllers
                 return NotFound();
             }
 
-            return dtos;
+            return Ok(dtos);
         }
 
 
         /// <summary>
-        /// Obtiene un autor en específico
+        /// Obtiene un autor
         /// </summary>
         /// <param name="id">Id del autor a obtener</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
@@ -60,7 +60,7 @@ namespace api.pdorado.Controllers
                 return NotFound();
             }
 
-            return dto;
+            return Ok(dto);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace api.pdorado.Controllers
         /// <param name="id">Id del autor a actualizar</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <param name="autorDTO">Datos del autor para actualizar</param>
-        /// <returns></returns>
+        /// <returns>El actor actualizado</returns>
         [Authorize]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<AutorDTO>> UpdateAutor(int id, int idLenguaje, AutorDTO autorDTO)
@@ -81,7 +81,7 @@ namespace api.pdorado.Controllers
                 return NotFound();
             }
 
-            return dto;
+            return Ok(dto);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <param name="autorDTO">Datos del autor para crear</param>
-        /// <returns></returns>
+        /// <returns>El autor creado</returns>
         [Authorize]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<AutorDTO>> CreateAutor(int idLenguaje, AutorDTO autorDTO)
@@ -104,7 +104,11 @@ namespace api.pdorado.Controllers
             return CreatedAtAction(nameof(GetAutor), new { id = dto.Id, idLenguaje = idLenguaje }, dto);
         }
 
-        // DELETE: api/Autor/5
+        /// <summary>
+        /// Elimina un actor
+        /// </summary>
+        /// <param name="id">El id del actor</param>
+        /// <returns>True si se ha eliminado correctamente, false si no</returns>
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAutor(int id)
@@ -116,7 +120,7 @@ namespace api.pdorado.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return Ok(deleted);
         }
     }
 }

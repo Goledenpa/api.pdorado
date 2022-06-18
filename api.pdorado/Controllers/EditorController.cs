@@ -6,6 +6,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using pdorado.data.Models;
 using api.pdorado.Auth;
+using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
@@ -13,172 +14,111 @@ namespace api.pdorado.Controllers
     [ApiController]
     public class EditorController : ControllerBase
     {
-        private readonly DataContext _context;
-        private IMapper mapper;
+        private readonly IDataService<EditorDTO, Editor> _editorService;
 
-        public EditorController(DataContext context, IMapper mapper)
+        public EditorController(IDataService<EditorDTO, Editor> editorService)
         {
-            _context = context;
-            this.mapper = mapper;
+            _editorService = editorService;
         }
 
-        // GET: api/Editor
+        /// <summary>
+        /// Obtiene todos los editores
+        /// </summary>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>La lista de todos los editores o un error 404 si no puede obtener los editores</returns>
         [Authorize]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<EditorDTO>>> GetEditores(int idLenguaje)
         {
-            if (_context.Editor == null)
+            List<EditorDTO> dtos = await _editorService.GetAll(idLenguaje);
+
+            if (dtos == null)
             {
                 return NotFound();
             }
 
-            var editoresDB = await _context.Editor.Include(x => x.Colecciones).ToListAsync();
-
-            List<EditorDTO> editoresDTO = new List<EditorDTO>();
-            foreach (Editor editor in editoresDB)
-            {
-                object editorDTO;
-
-                if ((editorDTO = MapEditor(editor)) is ObjectResult)
-                {
-                    return (ObjectResult)editorDTO;
-                }
-
-                editoresDTO.Add((EditorDTO)editorDTO);
-            }
-
-            return editoresDTO;
+            return dtos;
         }
 
-
-        // GET: api/Editor/5
+        /// <summary>
+        /// Obtiene un editor
+        /// </summary>
+        /// <param name="id">Id del editor</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>El editor o un error 404 si no lo encuentra</returns>
         [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<EditorDTO>> GetEditor(int id, int idLenguaje)
         {
-            if (_context.Editor == null)
-            {
-                return NotFound();
-            }
-            var editor = await _context.Editor.Include(x => x.Colecciones).FirstOrDefaultAsync(x => x.Id == id);
+            EditorDTO dto = await _editorService.Get(id, idLenguaje);
 
-            if (editor == null)
+            if (dto == null)
             {
                 return NotFound();
             }
 
-            object editorDTO;
-
-            if ((editorDTO = MapEditor(editor)) is ObjectResult)
-            {
-                return (ObjectResult)editorDTO;
-            }
-
-            return (EditorDTO)editorDTO;
+            return Ok(dto);
         }
 
-        // PUT: api/Editor/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        /// <summary>
+        /// Actualiza un editor
+        /// </summary>
+        /// <param name="id">Id del editor</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <param name="autorDTO">Datos del editor</param>
+        /// <returns>El editor actualizado</returns>
         [Authorize]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<EditorDTO>> UpdateEditor(int id, int idLenguaje, EditorDTO editorDTO)
         {
-            if (id != editorDTO.Id)
+            EditorDTO dto = await _editorService.Update(id, idLenguaje, editorDTO);
+
+            if (dto == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            Editor editor;
-            if ((editor = await MapEditorDTO(editorDTO)) == null)
-            {
-                return Problem();
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await EditorExist(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return (EditorDTO)MapEditor(editor);
+            return Ok(dto);
         }
 
-        // POST: api/Editor
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Crea un editor
+        /// </summary>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <param name="autorDTO">Datos del editor</param>
+        /// <returns>El editor creado</returns>
         [Authorize]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<EditorDTO>> CreateEditor(int idLenguaje, EditorDTO editorDTO)
         {
-            if (_context.Editor == null)
+            EditorDTO dto = await _editorService.Create(idLenguaje, editorDTO);
+
+            if (dto == null)
             {
-                return Problem("Entity set 'DataContext.Editor' is null.");
+                return Problem("Entity set 'Comic' is null");
             }
 
-            Editor editor = await MapEditorDTO(editorDTO);
-
-            await _context.Editor.AddAsync(editor);
-            await _context.SaveChangesAsync();
-            editorDTO.Id = editor.Id;
-
-            return CreatedAtAction(nameof(GetEditor), new { id = editorDTO.Id, idLenguaje = idLenguaje }, editorDTO);
+            return CreatedAtAction(nameof(GetEditor), new { id = dto.Id, idLenguaje = idLenguaje }, dto);
         }
 
-        // DELETE: api/Editor/5
+        /// <summary>
+        /// Elimina un editor
+        /// </summary>
+        /// <param name="id">El id del editor</param>
+        /// <returns>True si se ha eliminado correctamente, false si no</returns>
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEditor(int id)
         {
-            if (_context.Editor == null)
+            bool deleted = await _editorService.Delete(id);
+
+            if (!deleted)
             {
                 return NotFound();
             }
-            var editor = await _context.Editor.FindAsync(id);
-            if (editor == null)
-            {
-                return NotFound();
-            }
 
-            _context.Editor.Remove(editor);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        private async Task<bool> EditorExist(int id)
-        {
-            return await (_context.Editor.AnyAsync(e => e.Id == id));
-        }
-
-        private object MapEditor(Editor editor)
-        {
-            var editorDTO = mapper.Map<EditorDTO>(editor);
-
-            editorDTO.ColeccionIds = editor.Colecciones.Select(e => e.Id).ToList();
-
-            return editorDTO;
-        }
-
-        private async Task<Editor> MapEditorDTO(EditorDTO editorDTO)
-        {
-            Editor editor = mapper.Map<Editor>(editorDTO);
-
-            foreach (int idColeccion in editorDTO.ColeccionIds)
-            {
-                editor.Colecciones.Add(await _context.Coleccion.FindAsync(idColeccion));
-            }
-
-            _context.Entry(editor).State = EntityState.Modified;
-
-            return editor;
+            return Ok(deleted);
         }
     }
 }

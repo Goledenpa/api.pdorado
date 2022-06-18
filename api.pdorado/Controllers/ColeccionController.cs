@@ -61,8 +61,13 @@ namespace api.pdorado.Controllers
             return Ok(dto);
         }
 
-        // PUT: api/Coleccion/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Actualiza una colección
+        /// </summary>
+        /// <param name="id">Id de la colección</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <param name="autorDTO">Datos de la colección</param>
+        /// <returns>La colección actualizada</returns>
         [Authorize]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> UpdateColeccion(int id, int idLenguaje, ColeccionDTO coleccionDTO)
@@ -90,7 +95,7 @@ namespace api.pdorado.Controllers
                 return Problem("Entity set 'Autor' is null");
             }
 
-            return Ok(dto);
+            return CreatedAtAction(nameof(GetColeccion), new { id = dto.Id, idLenguaje = idLenguaje }, dto);
         }
 
         // DELETE: api/Coleccion/5
