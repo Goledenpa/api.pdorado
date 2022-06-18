@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using api.pdorado.Data;
 using Microsoft.AspNetCore.Authorization;
 using pdorado.data.Models;
 using api.pdorado.Data.Models;
@@ -56,7 +55,12 @@ namespace api.pdorado.Controllers
                     dto.Nombre,
                     dto.FechaNacimiento,
                     dto.IdLenguaje,
-                    tokenString
+                    tokenString,
+                    dto.IsAdmin,
+                    dto.CreadoPor,
+                    dto.CreadoFecha,
+                    dto.ActualizadoPor,
+                    dto.ActualizadoFecha
                 });
             }
 

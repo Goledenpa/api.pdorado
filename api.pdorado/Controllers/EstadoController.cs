@@ -25,7 +25,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>La lista de todos los estados o un error 404 si no puede obtener los estados</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<EstadoDTO>>> GetEstados(int idLenguaje)
         {
@@ -45,7 +45,7 @@ namespace api.pdorado.Controllers
         /// <param name="id">Id del estado</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>El estado o un error 404 si no encuentra el estado</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<EstadoDTO>> GetEstado(int id, int idLenguaje)
         {
@@ -66,7 +66,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <param name="autorDTO">Datos del estado actualizado</param>
         /// <returns>El estado actulizado</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<EstadoDTO>> UpdateEstado(int id, int idLenguaje, EstadoDTO estadoDTO)
         {
@@ -86,7 +86,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <param name="autorDTO">Datos del estado</param>
         /// <returns>El estado creado</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> CreateEstado(int idLenguaje, EstadoDTO estadoDTO)
         {
@@ -101,7 +101,7 @@ namespace api.pdorado.Controllers
         }
 
         // DELETE: api/Estado/5
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEstado(int id)
         {

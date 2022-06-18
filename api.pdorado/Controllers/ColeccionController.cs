@@ -99,7 +99,7 @@ namespace api.pdorado.Controllers
         }
 
         // DELETE: api/Coleccion/5
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteColeccion(int id)
         {

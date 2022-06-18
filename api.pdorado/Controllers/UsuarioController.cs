@@ -27,7 +27,7 @@ namespace api.pdorado.Controllers
         /// Obtiene todos los usuarios
         /// </summary>
         /// <returns>La lista de todos los usuarios o un error 404 si no puede obtener los usuarios</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UsuarioDTO>>> GetUsuarios()
         {
@@ -46,7 +46,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="login">Login del usuario a obtener</param>
         /// <returns>El autor o un error 404 si no lo encuentra</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpGet("{login}")]
         public async Task<ActionResult<UsuarioDTO>> GetUsuario(string login)
         {
@@ -66,7 +66,7 @@ namespace api.pdorado.Controllers
         /// <param name="login">Login del usuario</param>
         /// <param name="usuarioDTO">Datos del usuario para actualizar</param>
         /// <returns>El usuario actualizado</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpPut("{login}")]
         public async Task<ActionResult<UsuarioDTO>> UpdateUsuario(string login, UsuarioDTO usuarioDTO)
         {
@@ -85,7 +85,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="usuarioDTO">Datos del usuario para crear</param>
         /// <returns>El usuario creado</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpPost]
         public async Task<ActionResult<UsuarioDTO>> CreateAutor(UsuarioDTO usuarioDTO)
         {
@@ -104,7 +104,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="id">El id del usuario</param>
         /// <returns>True si se ha eliminado correctamente, false si no</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpDelete("{login}")]
         public async Task<IActionResult> DeleteUsuario(string login)
         {

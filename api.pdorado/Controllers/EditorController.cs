@@ -107,7 +107,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="id">El id del editor</param>
         /// <returns>True si se ha eliminado correctamente, false si no</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEditor(int id)
         {
