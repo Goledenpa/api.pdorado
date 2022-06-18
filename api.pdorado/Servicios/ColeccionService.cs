@@ -155,7 +155,11 @@ namespace api.pdorado.Servicios
             Coleccion db = _mapper.Map<Coleccion>(dto);
 
             var comics = new List<Comic>();
-
+            Editor comicEditor = await _context.Editor.FindAsync(db.IdEditor);
+            if (comicEditor != null)
+            {
+                db.Editor = comicEditor;
+            }
             foreach (int idComic in dto.ComicIds)
             {
                 Comic comicDB = await _context.Comic.FindAsync(idComic);
