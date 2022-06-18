@@ -39,14 +39,13 @@ namespace api.pdorado.Controllers
             return Ok(dtos);
         }
 
-
         /// <summary>
         /// Obtiene un cómic
         /// </summary>
         /// <param name="id">Id del cómic</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>El cómic un error 404 si no encuentra el cómic</returns>
-        [[Authorize]
+        [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> GetComic(int id, int idLenguaje)
         {

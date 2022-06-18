@@ -1,4 +1,5 @@
-﻿using api.pdorado.Data;
+﻿using api.pdorado.Configuration;
+using api.pdorado.Data;
 using api.pdorado.Data.Models;
 using api.pdorado.Servicios.Interfaces;
 using AutoMapper;
@@ -89,8 +90,9 @@ namespace api.pdorado.Servicios
                     Titulo = dto.Titulo,
                     Descripcion = dto.Descripcion
                 };
-                db.Lenguajes.AddRange(await CompletarLenguajes(db.Id, comicLenguaje));
-                await _context.Comic_Lenguaje.AddRangeAsync(comicLenguaje);
+                var lenguajes = await CompletarLenguajes(db.Id, comicLenguaje);
+                db.Lenguajes.AddRange(lenguajes);
+                await _context.Comic_Lenguaje.AddRangeAsync(lenguajes);
             }
 
             return db;
@@ -108,26 +110,11 @@ namespace api.pdorado.Servicios
                 lenguajeExistente
             };
 
-            List<int> idiomas = new List<int> { 1, 2, 3 };
-
-            foreach (int idioma in idiomas)
+            foreach (int idioma in Sesion.Instance.Idiomas)
             {
-                string idiomaTag = "";
+                string idiomaTag = Sesion.GetIdiomaTag(idioma);
 
-                switch (idioma)
-                {
-                    case 1:
-                        idiomaTag = "ES";
-                        break;
-                    case 2:
-                        idiomaTag = "GL";
-                        break;
-                    case 3:
-                        idiomaTag = "ENG";
-                        break;
-                }
-
-                var lenguaje = lenguajes.Where(x => x.IdLenguaje == idioma);
+                var lenguaje = lenguajes.Where(x => x.IdLenguaje == idioma).FirstOrDefault();
                 if (lenguaje == null)
                 {
                     lenguajes.Add(new Comic_Lenguaje
