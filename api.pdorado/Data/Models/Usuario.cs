@@ -11,5 +11,6 @@ namespace api.pdorado.Data.Models
         public string Email { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public int IdLenguaje { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

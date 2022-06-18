@@ -15,5 +15,10 @@ namespace pdorado.data.Models
         public string? Apellidos { get; set; }
         public DateTime? FechaNacimiento { get; set; }
         public int IdLenguaje { get; set; }
+        public bool IsAdmin { get; set; }
+        public string? CreadoPor { get; set; }
+        public DateTime? CreadoFecha { get; set; }
+        public string? ActualizadoPor { get; set; }
+        public DateTime? ActualizadoFecha { get; set; }
     }
 }
