@@ -27,13 +27,13 @@ namespace api.pdorado.Auth
 
             if (token != null)
             {
-                attachAccountToContext(context, token, usuarioService);
+                await attachAccountToContext(context, token, usuarioService);
             }
 
             await _next(context);
         }
 
-        private async void attachAccountToContext(HttpContext context, string token, IUsuarioService usuarioService)
+        private async Task attachAccountToContext(HttpContext context, string token, IUsuarioService usuarioService)
         {
             try
             {

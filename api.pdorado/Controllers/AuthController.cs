@@ -40,9 +40,9 @@ namespace api.pdorado.Controllers
         /// <returns>Un DTO de usuario si se ha podido autentificar, un error 400 si no</returns>
         [AllowAnonymous]
         [HttpPost("")]
-        public IActionResult Auth([FromBody] UsuarioDTO user)
+        public async Task<IActionResult> Auth([FromBody] UsuarioDTO user)
         {
-            bool isValid = _usuarioService.Login(user);
+            bool isValid = await _usuarioService.Login(user);
 
             if (isValid)
             {

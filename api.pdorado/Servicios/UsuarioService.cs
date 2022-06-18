@@ -32,13 +32,13 @@ namespace api.pdorado.Servicios
         /// </summary>
         /// <param name="user">DTO del usuario</param>
         /// <returns>True si el la contraseña es la correcta, false si no</returns>
-        public bool Login(UsuarioDTO user)
+        public async Task<bool> Login(UsuarioDTO user)
         {
             if (_context.Usuario == null)
             {
                 return false;
             }
-            Usuario db = _context.Usuario.Where(x => x.Login == user.Login).FirstOrDefault();
+            Usuario db = await _context.Usuario.Where(x => x.Login == user.Login).FirstOrDefaultAsync();
 
             return db != null && db.Contrasena == user.Contrasena;
         }

@@ -4,7 +4,7 @@ namespace api.pdorado.Servicios.Interfaces
 {
     public interface IUsuarioService
     {
-        bool Login(UsuarioDTO login);
+        Task<bool> Login(UsuarioDTO login);
         Task<UsuarioDTO> GetUsuario(string login);
         Task<List<UsuarioDTO>> GetAll();
         Task<UsuarioDTO> CreateUsuario(UsuarioDTO dto);
