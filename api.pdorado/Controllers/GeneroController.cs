@@ -45,7 +45,7 @@ namespace api.pdorado.Controllers
         /// <param name="id">Id del género</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>El género o un error 404 si no encuentra el género</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<GeneroDTO>> GetGenero(int id, int idLenguaje)
         {
@@ -66,7 +66,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <param name="autorDTO">Datos del género actualizado</param>
         /// <returns>El género actulizado</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<GeneroDTO>> UpdateGenero(int id, int idLenguaje, GeneroDTO generoDTO)
         {
@@ -86,7 +86,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <param name="autorDTO">Datos del género</param>
         /// <returns>El género creado</returns>
-        [Authorize]
+        [Authorize(Admin = true)]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> CreateGenero(int idLenguaje, GeneroDTO generoDTO)
         {

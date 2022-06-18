@@ -25,7 +25,7 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>La lista de todos los estados o un error 404 si no puede obtener los estados</returns>
-        [Authorize(Admin = true)]
+        [Authorize]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<EstadoDTO>>> GetEstados(int idLenguaje)
         {
