@@ -18,7 +18,6 @@ namespace api.pdorado.Configuration
                 .ForPath(bd => bd.Genero.Id, x => x.MapFrom(dto => dto.IdGenero))
                 .ForPath(bd => bd.Coleccion.Id, x => x.MapFrom(dto => dto.IdColeccion))
                 .ForPath(bd => bd.Estado.Id, x => x.MapFrom(dto => dto.IdEstado));
-
             #endregion
 
             #region Autor
@@ -50,7 +49,11 @@ namespace api.pdorado.Configuration
             #region Editor
             CreateMap<Editor, EditorDTO>();
             CreateMap<EditorDTO, Editor>();
+            #endregion
 
+            #region Usuario
+            CreateMap<Usuario, UsuarioDTO>();
+            CreateMap<UsuarioDTO, Usuario>();
             #endregion
         }
     }
