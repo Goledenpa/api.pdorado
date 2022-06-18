@@ -6,6 +6,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using api.pdorado.Configuration;
 using pdorado.data.Models;
+using api.pdorado.Auth;
 
 namespace api.pdorado.Controllers
 {
@@ -23,6 +24,7 @@ namespace api.pdorado.Controllers
         }
 
         // GET: api/Autor
+        [Authorize]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<AutorDTO>>> GetAutores(int idLenguaje)
         {
@@ -50,6 +52,7 @@ namespace api.pdorado.Controllers
 
 
         // GET: api/Autor/5
+        [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<AutorDTO>> GetAutor(int id, int idLenguaje)
         {
@@ -76,6 +79,7 @@ namespace api.pdorado.Controllers
 
         // PUT: api/Autor/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<AutorDTO>> UpdateAutor(int id, int idLenguaje, AutorDTO autorDTO)
         {
@@ -110,6 +114,7 @@ namespace api.pdorado.Controllers
 
         // POST: api/Autor
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<AutorDTO>> CreateAutor(int idLenguaje, AutorDTO autorDTO)
         {
@@ -128,6 +133,7 @@ namespace api.pdorado.Controllers
         }
 
         // DELETE: api/Autor/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAutor(int id)
         {

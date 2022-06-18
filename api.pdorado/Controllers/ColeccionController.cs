@@ -5,6 +5,7 @@ using api.pdorado.Data.Models;
 using AutoMapper;
 using System.Collections.Generic;
 using pdorado.data.Models;
+using api.pdorado.Auth;
 
 namespace api.pdorado.Controllers
 {
@@ -22,6 +23,7 @@ namespace api.pdorado.Controllers
         }
 
         // GET: api/Coleccion
+        [Authorize]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<ColeccionDTO>>> GetColecciones(int idLenguaje)
         {
@@ -51,6 +53,7 @@ namespace api.pdorado.Controllers
 
 
         // GET: api/Coleccion/5
+        [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> GetColeccion(int id, int idLenguaje)
         {
@@ -77,6 +80,7 @@ namespace api.pdorado.Controllers
 
         // PUT: api/Coleccion/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> UpdateColeccion(int id, int idLenguaje, ColeccionDTO coleccionDTO)
         {
@@ -111,6 +115,7 @@ namespace api.pdorado.Controllers
 
         // POST: api/Coleccion
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> CreateColeccion(int idLenguaje, ColeccionDTO coleccionDTO)
         {
@@ -129,6 +134,7 @@ namespace api.pdorado.Controllers
         }
 
         // DELETE: api/Coleccion/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteColeccion(int id)
         {

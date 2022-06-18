@@ -4,6 +4,7 @@ using api.pdorado.Data;
 using api.pdorado.Data.Models;
 using AutoMapper;
 using pdorado.data.Models;
+using api.pdorado.Auth;
 
 namespace api.pdorado.Controllers
 {
@@ -21,6 +22,7 @@ namespace api.pdorado.Controllers
         }
 
         // GET: api/Estado
+        [Authorize]
         [HttpGet("{idLenguaje}")]
         public async Task<ActionResult<IEnumerable<EstadoDTO>>> GetEstados(int idLenguaje)
         {
@@ -48,6 +50,7 @@ namespace api.pdorado.Controllers
 
 
         // GET: api/Estado/5
+        [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<EstadoDTO>> GetEstado(int id, int idLenguaje)
         {
@@ -74,6 +77,7 @@ namespace api.pdorado.Controllers
 
         // PUT: api/Estado/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}/{idLenguaje}")]
         public async Task<ActionResult<EstadoDTO>> UpdateEstado(int id, int idLenguaje, EstadoDTO estadoDTO)
         {
@@ -108,6 +112,7 @@ namespace api.pdorado.Controllers
 
         // POST: api/Estado
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost("{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> CreateEstado(int idLenguaje, EstadoDTO estadoDTO)
         {
@@ -126,6 +131,7 @@ namespace api.pdorado.Controllers
         }
 
         // DELETE: api/Estado/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEstado(int id)
         {
