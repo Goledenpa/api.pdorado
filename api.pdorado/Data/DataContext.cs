@@ -39,6 +39,8 @@ namespace api.pdorado.Data
 
             modelBuilder.Entity<Usuario>().HasAlternateKey(x => x.Login).HasName("IX_Login");
 
+            modelBuilder.Entity<Coleccion>().Navigation(x => x.Editor).AutoInclude();
+
             base.OnModelCreating(modelBuilder);
         }
 

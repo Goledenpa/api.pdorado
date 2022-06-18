@@ -10,7 +10,7 @@ namespace api.pdorado.Configuration
         {
             #region Comic
             CreateMap<Comic, ComicDTO>()
-                .ForMember(dto => dto.NombreAutor, x => x.MapFrom(bd => $"{bd.Autor.Nombre}  {bd.Autor.Apellidos}"))
+                .ForMember(dto => dto.NombreAutor, x => x.MapFrom(bd => $"{bd.Autor.Nombre} {bd.Autor.Apellidos}"))
                 .ForMember(dto => dto.NombreColeccion, x => x.MapFrom(bd => bd.Coleccion.Nombre));
 
             CreateMap<ComicDTO, Comic>()
