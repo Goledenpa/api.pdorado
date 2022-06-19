@@ -8,6 +8,7 @@
         }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
+        public string? Foto { get; set; }
         public List<int> ComicIds { get; set; }
     }
 }
