@@ -8,6 +8,7 @@ namespace pdorado.data.Models
 {
     public class UsuarioDTO
     {
+        public int Id { get; set; }
         public string Login { get; set; }
         public string Contrasena { get; set; }
         public string? Email { get; set; }

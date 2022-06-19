@@ -67,10 +67,10 @@ namespace api.pdorado.Controllers
         /// <param name="usuarioDTO">Datos del usuario para actualizar</param>
         /// <returns>El usuario actualizado</returns>
         [Authorize(Admin = true)]
-        [HttpPut("{login}")]
-        public async Task<ActionResult<UsuarioDTO>> UpdateUsuario(string login, UsuarioDTO usuarioDTO)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UsuarioDTO>> UpdateUsuario(int id, UsuarioDTO usuarioDTO)
         {
-            UsuarioDTO dto = await _usuarioService.UpdateUsuario(login, usuarioDTO);
+            UsuarioDTO dto = await _usuarioService.UpdateUsuario(id, usuarioDTO);
 
             if (dto == null)
             {
@@ -87,7 +87,7 @@ namespace api.pdorado.Controllers
         /// <returns>El usuario creado</returns>
         [Authorize(Admin = true)]
         [HttpPost]
-        public async Task<ActionResult<UsuarioDTO>> CreateAutor(UsuarioDTO usuarioDTO)
+        public async Task<ActionResult<UsuarioDTO>> CreateUsuario(UsuarioDTO usuarioDTO)
         {
             UsuarioDTO dto = await _usuarioService.CreateUsuario(usuarioDTO);
 

@@ -46,6 +46,7 @@ namespace api.pdorado.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseSqlServer(Encrypter.DecryptStringAES(Sesion.Instance.ConnectionString, Sesion.Instance.PublicKey));
             base.OnConfiguring(optionsBuilder);
         }

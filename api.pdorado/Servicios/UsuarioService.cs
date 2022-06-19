@@ -103,7 +103,7 @@ namespace api.pdorado.Servicios
         /// <param name="login">Login del usuario</param>
         /// <param name="dto">DTO del usuario</param>
         /// <returns>DTO del usuario actualizado</returns>
-        public async Task<UsuarioDTO> UpdateUsuario(string login, UsuarioDTO dto)
+        public async Task<UsuarioDTO> UpdateUsuario(int id, UsuarioDTO dto)
         {
             HashManager hasher = new HashManager();
             if (_context.Usuario == null)
@@ -111,8 +111,14 @@ namespace api.pdorado.Servicios
                 return null;
             }
 
-            Usuario db = _mapper.Map<Usuario>(dto);
-            db.Contrasena = hasher.HashToString(db.Contrasena);
+            if (await _context.Usuario.FindAsync(id) == null)
+            {
+                return null;
+            }
+
+            Usuario db = await _context.Usuario.FindAsync(id);
+
+            _context.Entry(db).CurrentValues.SetValues(dto);
 
             await _context.SaveChangesAsync();
             return _mapper.Map<UsuarioDTO>(db);

@@ -49,6 +49,7 @@ namespace api.pdorado.Controllers
                 UsuarioDTO dto = await _usuarioService.GetUsuario(user.Login);
                 return Ok(new 
                 {
+                    dto.Id,
                     dto.Login,
                     dto.Email,
                     dto.Apellidos,
