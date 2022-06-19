@@ -8,6 +8,7 @@ namespace api.pdorado.Servicios.Interfaces
     {
         Task<List<DTO>> GetAll(int idLenguaje);
         Task<DTO> Get(int id, int idLenguaje);
+        Task<DTO> Get(string code, int idLenguaje);
         Task<DTO> Update(int id, int idLenguaje, DTO dto);
         Task<DTO> Create(int idLenguaje, DTO dto);
         Task<bool> Delete(int id);

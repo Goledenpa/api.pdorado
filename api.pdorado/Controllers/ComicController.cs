@@ -60,6 +60,26 @@ namespace api.pdorado.Controllers
         }
 
         /// <summary>
+        /// Obtiene un cómic
+        /// </summary>
+        /// <param name="code">Código del cómic</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>El cómic o un error 404 si no encuentra el cómic</returns>
+        [Authorize]
+        [HttpGet("{code}/{idLenguaje}")]
+        public async Task<ActionResult<ComicDTO>> GetComic(string code, int idLenguaje)
+        {
+            ComicDTO dto = await _comicService.Get(code, idLenguaje);
+
+            if (dto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dto);
+        }
+
+        /// <summary>
         /// Actualiza un cómic
         /// </summary>
         /// <param name="id">Id del cómic</param>

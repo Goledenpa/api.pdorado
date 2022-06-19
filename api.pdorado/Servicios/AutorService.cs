@@ -97,6 +97,11 @@ namespace api.pdorado.Servicios
             return ConvertDTO(db);
         }
 
+        public Task<AutorDTO> Get(string code, int idLenguaje)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Obtiene todos los autores de la base de datos
         /// </summary>

@@ -95,6 +95,23 @@ namespace api.pdorado.Servicios
             return ConvertDTO(db);
         }
 
+        public async Task<ColeccionDTO> Get(string code, int idLenguaje)
+        {
+            if (_context.Coleccion == null) 
+            {
+                return null;
+            }
+
+            Coleccion db = await _context.Coleccion.Include(x => x.Comics).FirstOrDefaultAsync(x => x.Codigo.ToLower() == code.Trim().ToLower());
+
+            if (db == null)
+            {
+                return null;
+            }
+
+            return ConvertDTO(db);
+        }
+
         /// <summary>
         /// Obtiene todas las colecciones de la base de datos
         /// </summary>

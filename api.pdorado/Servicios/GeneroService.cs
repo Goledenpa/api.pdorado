@@ -98,6 +98,23 @@ namespace api.pdorado.Servicios
             return ConvertDTO(db, idLenguaje);
         }
 
+        public async Task<GeneroDTO> Get(string code, int idLenguaje)
+        {
+            if (_context.Genero == null)
+            {
+                return null;
+            }
+
+            Genero db = await _context.Genero.Include(x => x.Comics).FirstOrDefaultAsync(x => x.Codigo == code);
+
+            if (db == null)
+            {
+                return null;
+            }
+
+            return ConvertDTO(db, idLenguaje);
+        }
+
         /// <summary>
         /// Obtiene todos los géneros de la base de datos
         /// </summary>

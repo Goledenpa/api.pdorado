@@ -98,6 +98,23 @@ namespace api.pdorado.Servicios
             return ConvertDTO(db, idLenguaje);
         }
 
+        public async Task<EstadoDTO> Get(string code, int idLenguaje)
+        {
+            if (_context.Estado == null)
+            {
+                return null;
+            }
+
+            Estado db = await _context.Estado.Include(x => x.Comics).FirstOrDefaultAsync(x => x.Codigo == code);
+
+            if (db == null)
+            {
+                return null;
+            }
+
+            return ConvertDTO(db, idLenguaje);
+        }
+
         /// <summary>
         /// Obtiene todos los estados de la base de datos
         /// </summary>

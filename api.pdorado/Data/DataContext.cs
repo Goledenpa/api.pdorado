@@ -38,6 +38,10 @@ namespace api.pdorado.Data
             modelBuilder.Entity<Autor>().Navigation(x => x.Comics).AutoInclude();
 
             modelBuilder.Entity<Usuario>().HasAlternateKey(x => x.Login).HasName("IX_Login");
+            modelBuilder.Entity<Coleccion>().HasAlternateKey(x => x.Codigo).HasName("IX_CodigoColeccion");
+            modelBuilder.Entity<Comic>().HasAlternateKey(x => x.Codigo).HasName("IX_CodigoComic");
+            modelBuilder.Entity<Estado>().HasAlternateKey(x => x.Codigo).HasName("IX_CodigoEstado");
+            modelBuilder.Entity<Genero>().HasAlternateKey(x => x.Codigo).HasName("IX_CodigoGenero");
 
             modelBuilder.Entity<Coleccion>().Navigation(x => x.Editor).AutoInclude();
 

@@ -60,6 +60,26 @@ namespace api.pdorado.Controllers
         }
 
         /// <summary>
+        /// Obtiene un género
+        /// </summary>
+        /// <param name="code">Código del género</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>El género o un error 404 si no encuentra el género</returns>
+        [Authorize(Admin = true)]
+        [HttpGet("{code}/{idLenguaje}")]
+        public async Task<ActionResult<GeneroDTO>> GetGenero(string code, int idLenguaje)
+        {
+            GeneroDTO dto = await _generoService.Get(code, idLenguaje);
+
+            if (dto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dto);
+        }
+
+        /// <summary>
         /// Actualiza un género
         /// </summary>
         /// <param name="id">Id del género</param>

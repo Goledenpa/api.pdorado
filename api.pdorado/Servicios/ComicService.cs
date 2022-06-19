@@ -97,6 +97,23 @@ namespace api.pdorado.Servicios
             return ConvertDTO(db, idLenguaje);
         }
 
+        public async Task<ComicDTO> Get(string code, int idLenguaje)
+        {
+            if (_context.Comic == null)
+            {
+                return null;
+            }
+
+            Comic db = await _context.Comic.FirstOrDefaultAsync(x => x.Codigo == code);
+
+            if (db == null)
+            {
+                return null;
+            }
+
+            return ConvertDTO(db, idLenguaje);
+        }
+
         /// <summary>
         /// Obtiene todos los cómics de la base de datos
         /// </summary>

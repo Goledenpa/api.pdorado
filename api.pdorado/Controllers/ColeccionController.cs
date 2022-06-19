@@ -46,12 +46,32 @@ namespace api.pdorado.Controllers
         /// </summary>
         /// <param name="id">Id de la colección</param>
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
-        /// <returns>La colección o un error 404 si no lo encuentra</returns>
+        /// <returns>La colección o un error 404 si no la encuentra</returns>
         [Authorize]
         [HttpGet("{id}/{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> GetColeccion(int id, int idLenguaje)
         {
             ColeccionDTO dto = await _coleccionService.Get(id, idLenguaje);
+
+            if (dto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dto);
+        }
+
+        /// <summary>
+        /// Obtiene una colección
+        /// </summary>
+        /// <param name="code">Código de la colección</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>La colección o un error 404 si no la encuentra</returns>
+        [Authorize]
+        [HttpGet("{code}/{idLenguaje}")]
+        public async Task<ActionResult<ColeccionDTO>> GetColeccion(string code, int idLenguaje)
+        {
+            ColeccionDTO dto = await _coleccionService.Get(code, idLenguaje);
 
             if (dto == null)
             {

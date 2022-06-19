@@ -95,6 +95,11 @@ namespace api.pdorado.Servicios
             return ConvertDTO(db);
         }
 
+        public Task<EditorDTO> Get(string code, int idLenguaje)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Obtiene todos los editores de la base de datos
         /// </summary>

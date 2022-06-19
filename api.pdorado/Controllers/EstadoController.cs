@@ -60,6 +60,26 @@ namespace api.pdorado.Controllers
         }
 
         /// <summary>
+        /// Obtiene un estado
+        /// </summary>
+        /// <param name="code">Código del estado</param>
+        /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
+        /// <returns>El estado o un error 404 si no encuentra el estado</returns>
+        [Authorize(Admin = true)]
+        [HttpGet("{code}/{idLenguaje}")]
+        public async Task<ActionResult<EstadoDTO>> GetEstado(string code, int idLenguaje)
+        {
+            EstadoDTO dto = await _estadoService.Get(code, idLenguaje);
+
+            if (dto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dto);
+        }
+
+        /// <summary>
         /// Actualiza un estado
         /// </summary>
         /// <param name="id">Id del estado</param>
