@@ -139,7 +139,11 @@ namespace api.pdorado.Servicios
                 return null;
             }
 
-            Autor db = await ConvertDB(dto);
+            Autor db = await _context.Autor.FindAsync(id);
+
+            _context.Entry(db).CurrentValues.SetValues(dto);
+
+            db = await ConvertDB(dto);
 
             await _context.SaveChangesAsync();
 

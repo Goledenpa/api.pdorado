@@ -138,7 +138,11 @@ namespace api.pdorado.Servicios
                 return null;
             }
 
-            Comic db = await ConvertDB(dto, idLenguaje);
+            Comic db = await _context.Comic.FindAsync(id);
+
+            _context.Entry(db).CurrentValues.SetValues(dto);
+
+            db = await ConvertDB(dto, idLenguaje);
 
             await _context.SaveChangesAsync();
 

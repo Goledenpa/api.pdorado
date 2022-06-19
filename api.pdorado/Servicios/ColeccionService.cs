@@ -136,7 +136,11 @@ namespace api.pdorado.Servicios
                 return null;
             }
 
-            Coleccion db = await ConvertDB(dto);
+            Coleccion db = await _context.Coleccion.FindAsync(id);
+
+            _context.Entry(db).CurrentValues.SetValues(dto);
+
+            db = await ConvertDB(dto);
 
             await _context.SaveChangesAsync();
 

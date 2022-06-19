@@ -139,7 +139,11 @@ namespace api.pdorado.Servicios
                 return null;
             }
 
-            Estado db = await ConvertDB(dto, idLenguaje);
+            Estado db = await _context.Estado.FindAsync(id);
+
+            _context.Entry(db).CurrentValues.SetValues(dto);
+
+            db = await ConvertDB(dto, idLenguaje);
 
             await _context.SaveChangesAsync();
 

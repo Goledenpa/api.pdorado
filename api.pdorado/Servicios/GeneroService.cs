@@ -139,7 +139,11 @@ namespace api.pdorado.Servicios
                 return null;
             }
 
-            Genero db = await ConvertDB(dto, idLenguaje);
+            Genero db = await _context.Genero.FindAsync(id);
+
+            _context.Entry(db).CurrentValues.SetValues(dto);
+
+            db = await ConvertDB(dto, idLenguaje);
 
             await _context.SaveChangesAsync();
 
