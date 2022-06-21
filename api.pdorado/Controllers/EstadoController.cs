@@ -9,10 +9,16 @@ using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
+    /// <summary>
+    /// Controlador de Estado
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class EstadoController : ControllerBase
     {
+        /// <summary>
+        /// Servicio que hace todas las operaciones CRUD con la base de datos
+        /// </summary>
         private readonly IDataService<EstadoDTO, Estado> _estadoService;
 
         public EstadoController(IDataService<EstadoDTO, Estado> estadoService)
@@ -66,7 +72,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>El estado o un error 404 si no encuentra el estado</returns>
         [Authorize(Admin = true)]
-        [HttpGet("{code}/{idLenguaje}")]
+        [HttpGet("code={code}/{idLenguaje}")]
         public async Task<ActionResult<EstadoDTO>> GetEstado(string code, int idLenguaje)
         {
             EstadoDTO dto = await _estadoService.Get(code, idLenguaje);

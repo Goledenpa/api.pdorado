@@ -10,10 +10,16 @@ using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
+    /// <summary>
+    /// Controlador de Editor
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class EditorController : ControllerBase
     {
+        /// <summary>
+        /// Servicio que hace todas las operaciones CRUD en la tabla de Editor
+        /// </summary>
         private readonly IDataService<EditorDTO, Editor> _editorService;
 
         public EditorController(IDataService<EditorDTO, Editor> editorService)

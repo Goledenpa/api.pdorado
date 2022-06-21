@@ -2,6 +2,9 @@
 {
     public class Genero : BaseDB
     {
+        /// <summary>
+        /// Modelo sobre el que se va a crear la tabla Genero en la base de datos
+        /// </summary>
         public Genero()
         {
             Comics = new List<Comic>();

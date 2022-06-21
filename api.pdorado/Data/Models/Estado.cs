@@ -2,6 +2,9 @@
 {
     public class Estado : BaseDB
     {
+        /// <summary>
+        /// Modelo sobre el que se va a crear la tabla Estado en la base de datos
+        /// </summary>
         public Estado()
         {
             Comics = new List<Comic>();

@@ -1,5 +1,8 @@
 ﻿namespace pdorado.data.Models
 {
+    /// <summary>
+    /// DTO de Autor
+    /// </summary>
     public class AutorDTO : BaseDTO
     {
         public AutorDTO()

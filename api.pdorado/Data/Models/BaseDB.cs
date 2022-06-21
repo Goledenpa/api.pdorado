@@ -1,6 +1,9 @@
 ﻿namespace api.pdorado.Data.Models
 {
-    public class BaseDB
+    /// <summary>
+    /// Clase base de todas las tablas de la base de datos
+    /// </summary>
+    public abstract class BaseDB
     {
         public int Id { get; set; }
         public string CreadoPor { get; set; }

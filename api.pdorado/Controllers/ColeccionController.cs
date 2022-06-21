@@ -10,10 +10,16 @@ using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
+    /// <summary>
+    /// Controlador de Coleccion
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ColeccionController : ControllerBase
     {
+        /// <summary>
+        /// Servicio que hace todas las operaciones CRUD en la tabla de Coleccion
+        /// </summary>
         private readonly IDataService<ColeccionDTO, Coleccion> _coleccionService;
 
         public ColeccionController(IDataService<ColeccionDTO, Coleccion> coleccionService)
@@ -68,7 +74,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>La colección o un error 404 si no la encuentra</returns>
         [Authorize]
-        [HttpGet("{code}/{idLenguaje}")]
+        [HttpGet("code={code}/{idLenguaje}")]
         public async Task<ActionResult<ColeccionDTO>> GetColeccion(string code, int idLenguaje)
         {
             ColeccionDTO dto = await _coleccionService.Get(code, idLenguaje);

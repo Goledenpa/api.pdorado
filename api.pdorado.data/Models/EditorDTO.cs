@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace pdorado.data.Models
 {
+    /// <summary>
+    /// DTO de Editor
+    /// </summary>
     public class EditorDTO : BaseDTO
     {
         public EditorDTO()

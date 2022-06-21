@@ -9,10 +9,16 @@ using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
+    /// <summary>
+    /// Controlador de Genero
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class GeneroController : ControllerBase
     {
+        /// <summary>
+        /// Servicio que hace todas las operaciones CRUD en la tabla Genero
+        /// </summary>
         private readonly IDataService<GeneroDTO, Genero> _generoService;
 
         public GeneroController(IDataService<GeneroDTO, Genero> generoService)
@@ -66,7 +72,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>El género o un error 404 si no encuentra el género</returns>
         [Authorize(Admin = true)]
-        [HttpGet("{code}/{idLenguaje}")]
+        [HttpGet("code={code}/{idLenguaje}")]
         public async Task<ActionResult<GeneroDTO>> GetGenero(string code, int idLenguaje)
         {
             GeneroDTO dto = await _generoService.Get(code, idLenguaje);

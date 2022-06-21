@@ -2,6 +2,9 @@
 
 namespace api.pdorado.Data.Models
 {
+    /// <summary>
+    /// Modelo sobre el que se va a crear la tabla Coleccion en la base de datos
+    /// </summary>
     public class Coleccion : BaseDB
     {
         public Coleccion()

@@ -2,6 +2,9 @@
 
 namespace api.pdorado.Data.Models
 {
+    /// <summary>
+    /// Modelo sobre el que se va a crear la tabla Comic en la base de datos
+    /// </summary>
     public class Comic : BaseDB
     {
         public Comic()

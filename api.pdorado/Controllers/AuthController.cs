@@ -52,6 +52,7 @@ namespace api.pdorado.Controllers
                     dto.Id,
                     dto.Login,
                     dto.Email,
+                    dto.Contrasena,
                     dto.Apellidos,
                     dto.Nombre,
                     dto.FechaNacimiento,

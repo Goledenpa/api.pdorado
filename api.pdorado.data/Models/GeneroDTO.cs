@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace pdorado.data.Models
 {
+    /// <summary>
+    /// DTO de Género
+    /// </summary>
     public class GeneroDTO : BaseDTO
     {
         public GeneroDTO()

@@ -2,6 +2,9 @@
 
 namespace api.pdorado.Data.Models
 {
+    /// <summary>
+    /// Modelo sobre el que se va a crear la tabla Usuario en la base de datos
+    /// </summary>
     public class Usuario : BaseDB
     {
         public string Login { get; set; }

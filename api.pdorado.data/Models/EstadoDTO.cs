@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace pdorado.data.Models
 {
+    /// <summary>
+    /// DTO de Estado
+    /// </summary>
     public class EstadoDTO : BaseDTO
     {
         public EstadoDTO()

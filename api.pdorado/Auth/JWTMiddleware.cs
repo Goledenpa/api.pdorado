@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace api.pdorado.Auth
 {
+    /// <summary>
+    /// Middleware que se ocupa de comprobar si el Bearer Token es correcto
+    /// </summary>
     public class JWTMiddleware
     {
         private readonly RequestDelegate _next;
@@ -27,19 +30,19 @@ namespace api.pdorado.Auth
 
             if (token != null)
             {
-                await attachAccountToContext(context, token, usuarioService);
+                await AttachAccountToContext(context, token, usuarioService);
             }
 
             await _next(context);
         }
 
-        private async Task attachAccountToContext(HttpContext context, string token, IUsuarioService usuarioService)
+        private async Task AttachAccountToContext(HttpContext context, string token, IUsuarioService usuarioService)
         {
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:Key"));
-                tokenHandler.ValidateToken(token, new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),

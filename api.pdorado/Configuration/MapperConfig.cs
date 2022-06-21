@@ -4,6 +4,9 @@ using AutoMapper;
 
 namespace api.pdorado.Configuration
 {
+    /// <summary>
+    /// Clase para añadir perfiles al <see cref="AutoMapper.Mapper"/>
+    /// </summary>
     public class MapperConfig : Profile
     {
         public MapperConfig()

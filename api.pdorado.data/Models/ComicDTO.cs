@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace pdorado.data.Models
 {
+    /// <summary>
+    /// DTO de Cómic
+    /// </summary>
     public class ComicDTO : BaseDTO
     {
         public string Codigo { get; set; }

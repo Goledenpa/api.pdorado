@@ -12,6 +12,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
+/// Clase que se ejecuta al iniciar el programa
+
 string localIP = LocalIPAddress();
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,7 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 
+#region Generación del Swagger se le añade la verificación 
 builder.Services.AddSwaggerGen(swagger =>
 {
     swagger.SwaggerDoc("v1", new OpenApiInfo
@@ -54,7 +57,9 @@ builder.Services.AddSwaggerGen(swagger =>
         }
     });
 });
+#endregion
 
+#region Añadir la autentificación
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,11 +78,15 @@ builder.Services.AddAuthentication(option =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key")))
     };
 });
+#endregion
 
+#region Completar el objeto sesión
 Sesion.Instance.PublicKey = builder.Configuration.GetValue<string>("PublicKey");
 Sesion.Instance.ConnectionString = builder.Configuration.GetConnectionString("ComicsDBConnection");
 Sesion.Instance.Idiomas = new List<int> { 1, 2, 3 };
+#endregion
 
+#region Inyección de dependencias
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<IDataService<AutorDTO, Autor>, AutorService>();
@@ -86,6 +95,7 @@ builder.Services.AddTransient<IDataService<ComicDTO, Comic>, ComicService>();
 builder.Services.AddTransient<IDataService<EditorDTO, Editor>, EditorService>();
 builder.Services.AddTransient<IDataService<EstadoDTO, Estado>, EstadoService>();
 builder.Services.AddTransient<IDataService<GeneroDTO, Genero>, GeneroService>();
+#endregion
 
 builder.Services.AddCors(options =>
 {
@@ -117,6 +127,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 
+// Se añade la dirección local y el puero 7069 para indicar la ruta al swagger
 app.Urls.Add("https://" + localIP + ":7069");
 
 app.UseAuthorization();
@@ -125,7 +136,7 @@ app.MapControllers();
 
 app.Run();
 
-
+// Método que obtiene la dirección local
 static string LocalIPAddress()
 {
     using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))

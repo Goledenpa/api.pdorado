@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.pdorado.Data
 {
+    /// <summary>
+    /// Clase que contiene toda la información de las tablas de la base de datos
+    /// </summary>
     public class DataContext : DbContext
     {
         public DbSet<Autor> Autor { get; set; }
@@ -20,6 +23,10 @@ namespace api.pdorado.Data
 
         public DataContext(DbContextOptions options) : base(options) { }
 
+        /// <summary>
+        /// Cuando se ejecutan el comando "add-migration", observa tanto este método como los DbSet para ver que cambiar en la base de datos
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Comic_Lenguaje>().HasKey(x => new { x.IdComic, x.IdLenguaje });
@@ -48,6 +55,10 @@ namespace api.pdorado.Data
             base.OnModelCreating(modelBuilder);
         }
 
+        /// <summary>
+        /// Cuando se ejecuta el comando "add-migration", mira este método para saber en que dirección tiene que ejecutar la actualizacion
+        /// </summary>
+        /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();

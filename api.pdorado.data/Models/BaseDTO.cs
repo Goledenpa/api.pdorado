@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace pdorado.data.Models
 {
+    /// <summary>
+    /// DTO base del que heredarán todos los demás DTOs que se usarán para enviar a la api
+    /// </summary>
     public class BaseDTO
     {
         public int Id { get; set; }

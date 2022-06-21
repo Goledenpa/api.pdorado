@@ -8,6 +8,9 @@ namespace pdorado.data.Models
 {
     public class ColeccionDTO : BaseDTO
     {
+        /// <summary>
+        /// DTO de Colección
+        /// </summary>
         public ColeccionDTO()
         {
             ComicIds = new List<int>();

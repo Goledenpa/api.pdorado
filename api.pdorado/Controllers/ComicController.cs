@@ -9,10 +9,16 @@ using api.pdorado.Servicios.Interfaces;
 
 namespace api.pdorado.Controllers
 {
+    /// <summary>
+    /// Controlador de Cómics
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ComicController : ControllerBase
     {
+        /// <summary>
+        /// Servicio que hace todas las operaciones CRUD en la tabla de Comic
+        /// </summary>
         private readonly IDataService<ComicDTO, Comic> _comicService;
 
         public ComicController(IDataService<ComicDTO, Comic> comicService)
@@ -66,7 +72,7 @@ namespace api.pdorado.Controllers
         /// <param name="idLenguaje">El lenguaje de la aplicación en el momento de llamar a la api</param>
         /// <returns>El cómic o un error 404 si no encuentra el cómic</returns>
         [Authorize]
-        [HttpGet("{code}/{idLenguaje}")]
+        [HttpGet("code={code}/{idLenguaje}")]
         public async Task<ActionResult<ComicDTO>> GetComic(string code, int idLenguaje)
         {
             ComicDTO dto = await _comicService.Get(code, idLenguaje);
